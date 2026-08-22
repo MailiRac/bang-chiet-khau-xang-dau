@@ -34,6 +34,13 @@
           <span class="label">Giờ hiệu lực</span>
           <span class="value" id="time-display">--:--</span>
         </div>
+        <button id="btn-admin-update" class="btn-admin" title="Cập nhật bảng giá mới (Cần mật khẩu)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"></path>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+          </svg>
+          Cập nhật giá
+        </button>
       </div>
     </header>
 
@@ -55,7 +62,7 @@
         </div>
 
         <!-- Sync Button -->
-        <button id="btn-sync" class="btn-refresh" title="Làm mới từ Sheet Excel">
+        <button id="btn-sync" class="btn-refresh" title="Làm mới dữ liệu">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="23 4 23 10 17 10"></polyline>
             <polyline points="1 20 1 14 7 14"></polyline>
@@ -91,6 +98,93 @@
       <!-- Table Footer -->
       <div class="table-footer">
         <span>Dữ liệu được cập nhật bởi DuyenNVH</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin Modal for Multi-User Management & Audit Log -->
+  <div id="admin-modal" class="modal-backdrop">
+    <div class="modal-card modal-card-lg">
+      <div class="modal-header">
+        <h3 id="modal-title">🔒 Quản Trị Hệ Thống</h3>
+        <button id="modal-close" class="modal-btn-close">&times;</button>
+      </div>
+      
+      <!-- Step 1: Authentication -->
+      <div id="auth-step" class="modal-body">
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;">Nhập mã PIN của bạn để tiếp tục:</p>
+        <div style="display: flex; gap: 8px;">
+          <input type="password" id="pin-input" placeholder="Nhập mã PIN..." style="flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; outline: none;">
+          <button id="btn-submit-pin" class="btn-primary-action">Đăng nhập</button>
+        </div>
+        <p id="pin-error" style="color: #dc2626; font-size: 0.825rem; margin-top: 8px; display: none;">❌ Mã PIN không chính xác!</p>
+      </div>
+
+      <!-- Step 2: Main Dashboard -->
+      <div id="data-step" class="modal-body" style="display: none;">
+        <!-- Admin Tabs (Visible based on role) -->
+        <div class="admin-tab-nav">
+          <button id="tab-btn-update" class="admin-tab-btn active">📊 Cập nhật giá</button>
+          <button id="tab-btn-history" class="admin-tab-btn master-only">📜 Nhật ký lịch sử</button>
+          <button id="tab-btn-staff" class="admin-tab-btn master-only">👥 Quản lý nhân sự</button>
+          <button id="tab-btn-pin" class="admin-tab-btn master-only">🔑 Đổi mật khẩu</button>
+        </div>
+
+        <!-- Panel 1: Update Data -->
+        <div id="panel-update" class="admin-panel active">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Dán kết quả công thức từ ô Excel vào khung dưới đây:</p>
+            <span id="current-user-badge" class="badge-user">Admin Tổng</span>
+          </div>
+          <textarea id="data-paste-input" rows="7" placeholder="Dán nội dung từ ô Excel vào đây..."></textarea>
+          <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px;">
+            <button id="btn-cancel-data" class="btn-cancel">Đóng</button>
+            <button id="btn-save-data" class="btn-primary-action">Lưu & Áp dụng ngay</button>
+          </div>
+        </div>
+
+        <!-- Panel 2: Audit History Log (Master Admin Only) -->
+        <div id="panel-history" class="admin-panel">
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Lịch sử các lần cập nhật bảng giá gần nhất:</p>
+          <div class="history-table-wrapper">
+            <table class="history-table">
+              <thead>
+                <tr>
+                  <th>Thời gian</th>
+                  <th>Người cập nhật</th>
+                  <th class="center">Số lượng</th>
+                </tr>
+              </thead>
+              <tbody id="history-log-body">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Panel 3: Staff Management (Master Admin Only) -->
+        <div id="panel-staff" class="admin-panel">
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 10px;">Danh sách nhân sự được cấp quyền cập nhật giá:</p>
+          <div style="display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;">
+            <input type="text" id="new-staff-name" placeholder="Tên nhân viên (VD: Kế toán Linh)" style="flex: 1; min-width: 160px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.875rem; outline: none;">
+            <input type="password" id="new-staff-pin" placeholder="Mã PIN riêng (VD: 112233)" style="width: 140px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.875rem; outline: none;">
+            <button id="btn-add-staff" class="btn-primary-action" style="padding: 8px 14px;">+ Thêm</button>
+          </div>
+          <div class="staff-list-wrapper" id="staff-list-container">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Panel 4: Change Password (Master Admin Only) -->
+        <div id="panel-pin" class="admin-panel">
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">Đổi mã PIN Admin Tổng mới:</p>
+          <div style="display: flex; flex-direction: column; gap: 10px; max-width: 320px;">
+            <input type="password" id="new-pin-input" placeholder="Nhập mã PIN mới..." style="padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; outline: none;">
+            <input type="password" id="confirm-pin-input" placeholder="Xác nhận mã PIN mới..." style="padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.95rem; outline: none;">
+            <button id="btn-save-pin" class="btn-primary-action" style="align-self: flex-start; margin-top: 4px;">Lưu mã PIN mới</button>
+          </div>
+          <p id="pin-change-status" style="font-size: 0.85rem; margin-top: 8px; display: none;"></p>
+        </div>
       </div>
     </div>
   </div>

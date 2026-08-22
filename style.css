@@ -104,25 +104,177 @@ body {
   font-weight: 700;
 }
 
+.btn-admin {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f59e0b;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #d97706;
+  font-size: 0.825rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-admin:hover {
+  background: #d97706;
+}
+
+/* Modal Tabs */
+.admin-tab-nav {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+}
+
+.admin-tab-btn {
+  background: transparent;
+  border: none;
+  padding: 8px 14px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.admin-tab-btn.active {
+  background: var(--primary-light);
+  color: var(--primary-dark);
+}
+
+.admin-panel {
+  display: none;
+}
+
+.modal-card.modal-card-lg {
+  max-width: 620px;
+}
+
+.badge-user {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde68a;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* History Log Table */
+.history-table-wrapper {
+  max-height: 240px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.835rem;
+}
+
+.history-table th {
+  background: #f8fafc;
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.775rem;
+  position: sticky;
+  top: 0;
+}
+
+.history-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-main);
+}
+
+.history-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Staff List */
+.staff-list-wrapper {
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.staff-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.staff-item .staff-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.staff-item .staff-name {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.staff-item .staff-pin-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.btn-delete-staff {
+  background: #fee2e2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-delete-staff:hover {
+  background: #dc2626;
+  color: #ffffff;
+}
+
 /* Controls Bar */
 .controls-card {
   background: var(--bg-card);
-  padding: 16px 20px;
+  padding: 14px 18px;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-sm);
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .search-box {
   position: relative;
   flex: 1;
-  min-width: 260px;
+  min-width: 220px;
   max-width: 380px;
 }
 
@@ -154,14 +306,14 @@ body {
 
 .filter-pills {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
 }
 
 .pill-btn {
-  padding: 7px 14px;
+  padding: 6px 12px;
   border-radius: 8px;
-  font-size: 0.84rem;
+  font-size: 0.825rem;
   font-weight: 600;
   border: 1px solid var(--border);
   background: #ffffff;
@@ -186,9 +338,9 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 14px;
+  padding: 6px 12px;
   border-radius: 8px;
-  font-size: 0.84rem;
+  font-size: 0.825rem;
   font-weight: 600;
   border: 1px solid var(--primary);
   background: var(--primary);
@@ -199,10 +351,6 @@ body {
 
 .btn-refresh:hover {
   background: var(--primary-hover);
-}
-
-.btn-refresh svg {
-  animation: none;
 }
 
 .btn-refresh:active svg {
@@ -222,6 +370,7 @@ body {
 .table-responsive {
   width: 100%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 table.data-table {
@@ -237,7 +386,7 @@ table.data-table th {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: 8px 12px;
+  padding: 8px 10px;
   border-bottom: 2px solid #047857;
   white-space: nowrap;
 }
@@ -247,7 +396,7 @@ table.data-table th.center, table.data-table td.center {
 }
 
 table.data-table td {
-  padding: 5px 12px;
+  padding: 6px 10px;
   font-size: 0.85rem;
   line-height: 1.35;
   border-bottom: 1px solid var(--border);
@@ -277,10 +426,10 @@ table.data-table tbody tr:last-child td {
   color: #047857;
   background: #f0fdf4;
   border: 1px solid #dcfce7;
-  padding: 1px 6px;
+  padding: 2px 6px;
   border-radius: 4px;
   display: inline-block;
-  min-width: 44px;
+  min-width: 42px;
   text-align: center;
 }
 
@@ -294,11 +443,12 @@ table.data-table tbody tr:last-child td {
 /* Region Badges */
 .badge-region {
   display: inline-block;
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: 12px;
   font-size: 0.725rem;
   font-weight: 700;
   letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 .badge-region.dnb {
@@ -328,41 +478,66 @@ table.data-table tbody tr:last-child td {
 
 /* Table Footer / Summary */
 .table-footer {
-  padding: 9px 16px;
+  padding: 8px 14px;
   background: #f8fafc;
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: flex-end;
   align-items: center;
   color: var(--text-muted);
-  font-size: 0.825rem;
+  font-size: 0.8rem;
   font-weight: 500;
 }
 
 /* Empty State */
 .no-data {
   text-align: center;
-  padding: 48px 16px;
+  padding: 40px 16px;
   color: var(--text-muted);
 }
 
-/* Responsive */
+/* Mobile-First Responsive Optimization */
 @media (max-width: 768px) {
+  body {
+    padding: 10px 8px;
+  }
   .header-card {
-    padding: 18px;
+    padding: 16px 14px;
+    gap: 12px;
+  }
+  .header-title-group h1 {
+    font-size: 1.25rem;
+  }
+  .header-title-group p {
+    font-size: 0.8rem;
   }
   .header-meta {
     width: 100%;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+  .btn-admin {
+    padding: 5px 10px;
+    font-size: 0.775rem;
   }
   .controls-card {
+    padding: 12px;
     flex-direction: column;
     align-items: stretch;
+    gap: 10px;
   }
   .search-box {
     max-width: 100%;
   }
   .filter-pills {
     justify-content: flex-start;
+  }
+  .pill-btn {
+    padding: 5px 10px;
+    font-size: 0.775rem;
+  }
+  table.data-table th, table.data-table td {
+    padding: 6px 8px;
   }
 }

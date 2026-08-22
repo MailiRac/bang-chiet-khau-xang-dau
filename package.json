@@ -1,0 +1,12 @@
+{
+  "name": "bang-chiet-khau-xang-dau",
+  "version": "1.0.0",
+  "description": "Bảng Giá & Chiết Khấu Xăng Dầu",
+  "main": "index.html",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "xlsx": "^0.18.5"
+  }
+}
