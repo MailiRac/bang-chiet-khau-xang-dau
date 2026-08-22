@@ -363,24 +363,16 @@ body {
   transition: transform 0.3s;
 }
 
-/* Responsive View Switch */
+/* --- Responsive View Switch (Khóa chặt không bị chồng lấn) --- */
 .desktop-view {
-  display: block;
+  display: block !important;
 }
 
-.mobile-view {
-  display: none;
-}
-
-/* Mobile Cards Container */
 .mobile-cards-container {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 12px;
-  background: #f8fafc;
+  display: none !important;
 }
 
+/* Mobile Cards Styling */
 .mobile-card {
   background: #ffffff;
   border-radius: 12px;
@@ -655,7 +647,11 @@ table.data-table tbody tr:last-child td {
   .desktop-view {
     display: none !important;
   }
-  .mobile-view {
+  .mobile-cards-container {
     display: flex !important;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    background: #f8fafc;
   }
 }
