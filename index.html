@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=2.5">
+  <link rel="stylesheet" href="style.css?v=2.6">
 </head>
 <body>
 
@@ -73,9 +73,10 @@
       </div>
     </div>
 
-    <!-- Data Table Card -->
+    <!-- Data Display Card (Table on Desktop, Cards on Mobile) -->
     <div class="table-card">
-      <div class="table-responsive">
+      <!-- Desktop Table View -->
+      <div class="table-responsive desktop-view">
         <table class="data-table">
           <thead>
             <tr>
@@ -93,6 +94,11 @@
             <!-- Rendered by JS -->
           </tbody>
         </table>
+      </div>
+
+      <!-- Mobile Card View (Auto fits 100% phone screens) -->
+      <div class="mobile-cards-container mobile-view" id="mobile-cards">
+        <!-- Rendered by JS -->
       </div>
 
       <!-- Table Footer -->
@@ -190,8 +196,8 @@
   </div>
 
   <!-- Fallback data if opened outside Excel -->
-  <script src="data.js?v=2.5"></script>
+  <script src="data.js?v=2.6"></script>
   <!-- Main Application Logic -->
-  <script src="app.js?v=2.5"></script>
+  <script src="app.js?v=2.6"></script>
 </body>
 </html>

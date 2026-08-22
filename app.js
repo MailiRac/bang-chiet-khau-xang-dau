@@ -181,9 +181,19 @@ function renderFilterButtons() {
   });
 }
 
-function renderTable() {
-  if (!tableBody) return;
+const mobileCardsContainer = document.getElementById('mobile-cards');
 
+function formatPriceBox(label, val) {
+  const isHasVal = val && val !== '-' && val !== '' && val !== '0' && val !== 0;
+  return `
+    <div class="mobile-price-box ${isHasVal ? 'has-value' : ''}">
+      <span class="mobile-price-label">${label}</span>
+      <span class="${isHasVal ? 'mobile-price-val' : 'mobile-price-empty'}">${isHasVal ? val : '-'}</span>
+    </div>
+  `;
+}
+
+function renderTable() {
   if (effectiveDate && dateDisplayEl) {
     dateDisplayEl.textContent = effectiveDate;
   } else if (priceData.length > 0 && dateDisplayEl) {
@@ -204,31 +214,63 @@ function renderTable() {
     return matchesRegion && matchesSearch;
   });
 
-  if (filtered.length === 0) {
-    tableBody.innerHTML = `
-      <tr>
-        <td colspan="8" class="no-data">
-          <p>Không tìm thấy dữ liệu phù hợp.</p>
-        </td>
-      </tr>
-    `;
-    return;
+  // 1. Render Desktop Table View
+  if (tableBody) {
+    if (filtered.length === 0) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="8" class="no-data">
+            <p>Không tìm thấy dữ liệu phù hợp.</p>
+          </td>
+        </tr>
+      `;
+    } else {
+      tableBody.innerHTML = filtered.map(row => `
+        <tr>
+          <td class="center" style="color: var(--text-muted); font-size: 0.85rem;">${row.date || '-'}</td>
+          <td><span class="supplier-name">${row.supplier || '-'}</span></td>
+          <td class="center">${formatValue(row.e5)}</td>
+          <td class="center">${formatValue(row.e10)}</td>
+          <td class="center">${formatValue(row.do05)}</td>
+          <td class="center">${formatValue(row.do001)}</td>
+          <td class="center" style="color: var(--text-muted); font-size: 0.85rem;">${effectiveTime || row.time || '-'}</td>
+          <td class="center">
+            <span class="badge-region ${getRegionClass(row.region)}">${row.region || '-'}</span>
+          </td>
+        </tr>
+      `).join('');
+    }
   }
 
-  tableBody.innerHTML = filtered.map(row => `
-    <tr>
-      <td class="center" style="color: var(--text-muted); font-size: 0.85rem;">${row.date || '-'}</td>
-      <td><span class="supplier-name">${row.supplier || '-'}</span></td>
-      <td class="center">${formatValue(row.e5)}</td>
-      <td class="center">${formatValue(row.e10)}</td>
-      <td class="center">${formatValue(row.do05)}</td>
-      <td class="center">${formatValue(row.do001)}</td>
-      <td class="center" style="color: var(--text-muted); font-size: 0.85rem;">${effectiveTime || row.time || '-'}</td>
-      <td class="center">
-        <span class="badge-region ${getRegionClass(row.region)}">${row.region || '-'}</span>
-      </td>
-    </tr>
-  `).join('');
+  // 2. Render Mobile Card View (Auto Fit 100% Mobile Screen)
+  if (mobileCardsContainer) {
+    if (filtered.length === 0) {
+      mobileCardsContainer.innerHTML = `
+        <div class="no-data">
+          <p>Không tìm thấy dữ liệu phù hợp.</p>
+        </div>
+      `;
+    } else {
+      mobileCardsContainer.innerHTML = filtered.map(row => `
+        <div class="mobile-card">
+          <div class="mobile-card-header">
+            <span class="mobile-supplier-title">${row.supplier || '-'}</span>
+            <span class="badge-region ${getRegionClass(row.region)}">${row.region || '-'}</span>
+          </div>
+          <div class="mobile-price-grid">
+            ${formatPriceBox('E5', row.e5)}
+            ${formatPriceBox('E10', row.e10)}
+            ${formatPriceBox('DO 0.05', row.do05)}
+            ${formatPriceBox('DO 0.001', row.do001)}
+          </div>
+          <div class="mobile-card-footer">
+            <span>📅 ${row.date || '-'}</span>
+            <span>🕒 ${effectiveTime || row.time || '-'}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+  }
 }
 
 // Fetch live data đồng bộ từ Server
