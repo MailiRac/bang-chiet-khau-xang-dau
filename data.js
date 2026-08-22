@@ -1,72 +1,122 @@
 window.priceData = [
   {
-    "date": "08/08/2026",
-    "supplier": "PETEC - VĨNH LONG",
+    "date": "20/08/2026",
+    "supplier": "ANH PHÁT PETRO - PVOIL",
     "e5": 0,
-    "e10": 800,
-    "do05": 1100,
-    "do001": 0,
-    "time": "0:00",
-    "region": "Miền Tây"
-  },
-  {
-    "date": "08/08/2026",
-    "supplier": "PETEC - MEKONG",
-    "e5": 850,
-    "e10": 850,
-    "do05": 1150,
-    "do001": 1250,
-    "time": "0:00",
-    "region": "Miền Tây"
-  },
-  {
-    "date": "08/08/2026",
-    "supplier": "PETROMEKONG - MEKONG",
-    "e5": 950,
-    "e10": 950,
-    "do05": 1000,
-    "do001": 1050,
-    "time": "7:30",
-    "region": "Miền Tây"
-  },
-  {
-    "date": "08/08/2026",
-    "supplier": "PHÁT AN KHANG - ANH PHÁT",
-    "e5": 0,
-    "e10": 0,
-    "do05": 1700,
-    "do001": 2000,
-    "time": "0:00",
-    "region": "Miền Trung"
-  },
-  {
-    "date": "08/08/2026",
-    "supplier": "PHÚC LÂM - NHÀ BÈ",
-    "e5": 0,
-    "e10": 1200,
-    "do05": 1500,
+    "e10": 50,
+    "do05": 50,
     "do001": 0,
     "time": "0:00",
     "region": "ĐNB"
   },
   {
-    "date": "08/08/2026",
-    "supplier": "PHÚC LỘC NINH - ANH PHÁT",
+    "date": "20/08/2026",
+    "supplier": "ANH PHÁT PETRO - AP NGHI SƠN",
     "e5": 0,
-    "e10": 1200,
-    "do05": 1700,
-    "do001": 1800,
-    "time": "0:00",
+    "e10": 600,
+    "do05": 1000,
+    "do001": 1000,
+    "time": "17:00",
     "region": "Miền Trung"
   },
   {
-    "date": "08/08/2026",
-    "supplier": "PHÚC LỘC NINH - XUÂN GIANG",
+    "date": "20/08/2026",
+    "supplier": "ANH PHÁT PETRO - AP NGHI SƠN",
     "e5": 0,
-    "e10": 1400,
-    "do05": 1600,
-    "do001": 1800,
+    "e10": 800,
+    "do05": 1000,
+    "do001": 1000,
+    "time": "20:00",
+    "region": "Miền Trung"
+  },
+  {
+    "date": "20/08/2026",
+    "supplier": "BK PETRO - NHÀ BÈ",
+    "e5": 0,
+    "e10": 50,
+    "do05": 50,
+    "do001": 0,
     "time": "0:00",
-    "region": "Miền Bắc"
+    "region": "ĐNB"
+  },
+  {
+    "date": "20/08/2026",
+    "supplier": "BK PETRO - PVOIL NHÀ BÈ",
+    "e5": 0,
+    "e10": 100,
+    "do05": 20,
+    "do001": 100,
+    "time": "0:00",
+    "region": "ĐNB"
+  },
+  {
+    "date": "20/08/2026",
+    "supplier": "PETEC LONG AN - PVOIL NHÀ BÈ",
+    "e5": 450,
+    "e10": 450,
+    "do05": 450,
+    "do001": 550,
+    "time": "20:00",
+    "region": "ĐNB"
+  },
+  {
+    "date": "20/08/2026",
+    "supplier": "PETROLIMEX CẦN THƠ - CẦN THƠ",
+    "e5": 0,
+    "e10": 800,
+    "do05": 800,
+    "do001": 1100,
+    "time": "15:00",
+    "region": "Miền Tây"
+  },
+  {
+    "date": "20/08/2026",
+    "supplier": "PETROMEKONG - MEKONG",
+    "e5": 30,
+    "e10": 30,
+    "do05": 20,
+    "do001": 30,
+    "time": "0:00",
+    "region": "Miền Tây"
+  },
+  {
+    "date": "20/08/2026",
+    "supplier": "PHUC LAM PETRO - NHÀ BÈ",
+    "e5": 0,
+    "e10": 50,
+    "do05": 50,
+    "do001": 0,
+    "time": "0:00",
+    "region": "ĐNB"
+  },
+  {
+    "date": "20/08/2026",
+    "supplier": "PVOIL THANH HÓA - NGHI SƠN",
+    "e5": 500,
+    "e10": 500,
+    "do05": 600,
+    "do001": 600,
+    "time": "17:45",
+    "region": "Miền Trung"
+  },
+  {
+    "date": "20/08/2026",
+    "supplier": "SE - CẦN THƠ",
+    "e5": 0,
+    "e10": 50,
+    "do05": 20,
+    "do001": 20,
+    "time": "8:30",
+    "region": "Miền Tây"
+  },
+  {
+    "date": "20/08/2026",
+    "supplier": "TFC - TFC",
+    "e5": 0,
+    "e10": 30,
+    "do05": 30,
+    "do001": 30,
+    "time": "0:00",
+    "region": "Miền Tây"
   }
 ];
