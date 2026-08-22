@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --primary: #059669;
   --primary-hover: #047857;
   --primary-light: #ecfdf5;
@@ -363,7 +363,7 @@ body {
   transition: transform 0.3s;
 }
 
-/* --- Responsive View Switch (Khóa chặt không bị chồng lấn) --- */
+/* --- Responsive View Switch (KhÃ³a cháº·t khÃ´ng bá»‹ chá»“ng láº¥n) --- */
 
 
 
@@ -377,177 +377,13 @@ body {
   overflow: hidden;
 }
 
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
 
-table.data-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-}
-
-table.data-table th {
-  background: #064e3b;
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 8px 10px;
-  border-bottom: 2px solid #047857;
-  white-space: nowrap;
-}
-
-table.data-table th.center, table.data-table td.center {
-  text-align: center;
-}
-
-table.data-table td {
-  padding: 6px 10px;
-  font-size: 0.85rem;
-  line-height: 1.35;
-  border-bottom: 1px solid var(--border);
-  color: var(--text-main);
-  transition: background 0.15s;
-}
-
-table.data-table tbody tr:hover td {
-  background-color: #f0fdf4;
-}
-
-table.data-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.supplier-name {
-  font-weight: 600;
-  color: #1e293b;
-  font-size: 0.865rem;
-}
-
-/* Value stylings */
-.price-value {
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  font-size: 0.835rem;
-  color: #047857;
-  background: #f0fdf4;
-  border: 1px solid #dcfce7;
-  padding: 2px 6px;
-  border-radius: 4px;
-  display: inline-block;
-  min-width: 42px;
-  text-align: center;
-}
-
-.price-empty {
-  color: #94a3b8;
-  font-weight: normal;
-  text-align: center;
-  font-size: 0.85rem;
-}
-
-/* Region Badges */
-.badge-region {
-  display: inline-block;
-  padding: 2px 7px;
-  border-radius: 12px;
-  font-size: 0.725rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-
-.badge-region.dnb {
-  background-color: var(--badge-dnb-bg);
-  color: var(--badge-dnb-text);
-}
-
-.badge-region.mb {
-  background-color: var(--badge-mb-bg);
-  color: var(--badge-mb-text);
-}
-
-.badge-region.mt {
-  background-color: var(--badge-mt-bg);
-  color: var(--badge-mt-text);
-}
-
-.badge-region.mtrung {
-  background-color: var(--badge-mtrung-bg);
-  color: var(--badge-mtrung-text);
-}
-
-.badge-region.other {
-  background-color: #f1f5f9;
-  color: #475569;
-}
-
-/* Table Footer / Summary */
-.table-footer {
-  padding: 8px 14px;
-  background: #f8fafc;
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-/* Empty State */
-.no-data {
-  text-align: center;
-  padding: 40px 16px;
-  color: var(--text-muted);
-}
-
-/* Mobile-First Responsive Optimization */
-@media (max-width: 768px) {
-  body { padding: 8px 6px; }
-  .header-card { padding: 16px 14px; gap: 12px; }
-  .header-title-group h1 { font-size: 1.2rem; }
-  .header-title-group p { font-size: 0.775rem; }
-  .header-meta { width: 100%; justify-content: space-between; padding: 8px 12px; gap: 8px; }
-  .btn-admin { padding: 6px 12px; font-size: 0.8rem; }
-  .controls-card { padding: 12px; flex-direction: column; align-items: stretch; gap: 10px; }
-  .search-box { width: 100%; }
-  .filter-region { justify-content: flex-start; }
-  /* Table optimization for mobile */
-  .data-table th, .data-table td {
-    padding: 6px 2px;
-    font-size: 11px;
-  }
-  .data-table th {
-    font-size: 10px;
-    white-space: normal;
-    word-break: break-word;
-    line-height: 1.1;
-  }
-  .supplier-name {
-    font-size: 11px;
-  }
-  .price-value {
-    font-size: 11px;
-    padding: 2px;
-  }
-  input.edit-input {
-    width: 100%;
-    font-size: 11px;
-    padding: 2px;
-    min-width: 40px;
-  }
   .table-responsive {
     border-radius: 0;
-    margin: 0 -8px;
-    width: calc(100% + 16px);
+    width: 100%;
   }
   
-  /* --- ÉP KHUÔN BẢNG VỪA KHÍT MÀN HÌNH --- */
+  /* --- EP KHUON BANG VUA KHIT MAN HINH --- */
   .data-table {
     table-layout: fixed !important;
     width: 100% !important;
@@ -556,26 +392,31 @@ table.data-table tbody tr:last-child td {
   .data-table th, .data-table td {
     width: auto !important;
     min-width: 0 !important;
-    padding: 6px 1px !important;
+    padding: 6px 2px !important;
     word-wrap: break-word !important;
     white-space: normal !important;
   }
 
-  /* Ẩn cột Ngày (1) và Cột Giờ (7) để tối ưu triệt để */
+  /* An cot Ngay (1) va Cot Khu Vuc (8) */
   .data-table th:nth-child(1), .data-table td:nth-child(1),
-  .data-table th:nth-child(7), .data-table td:nth-child(7) {
+  .data-table th:nth-child(8), .data-table td:nth-child(8) {
     display: none !important;
   }
 
-  /* C?t T�n Kho (C?t 2) chi?m t? l? nh? v?a ph?i d? nhu?ng ch? cho gi� */
+  /* Cot Ten Kho (Cot 2) chiem 32% */
   .data-table th:nth-child(2), .data-table td:nth-child(2) {
-    width: 30% !important;
+    width: 32% !important;
+  }
+
+  /* Cot Gio (7) thu hep 1 chut */
+  .data-table th:nth-child(7), .data-table td:nth-child(7) {
+    width: 12% !important;
   }
 
   input.edit-input {
     width: 100% !important;
     min-width: 0 !important;
-    padding: 2px 1px !important;
+    padding: 4px 1px !important;
     font-size: 11px !important;
   }
 }
