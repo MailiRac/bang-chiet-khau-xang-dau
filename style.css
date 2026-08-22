@@ -546,5 +546,11 @@ table.data-table tbody tr:last-child td {
     margin: 0 -8px;
     width: calc(100% + 16px);
   }
+  
+  /* Ẩn cột Ngày (Cột 1) để tiết kiệm diện tích */
+  .data-table th:nth-child(1),
+  .data-table td:nth-child(1) {
+    display: none !important;
+  }
 }
 
