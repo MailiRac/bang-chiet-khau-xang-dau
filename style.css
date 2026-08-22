@@ -547,10 +547,35 @@ table.data-table tbody tr:last-child td {
     width: calc(100% + 16px);
   }
   
-  /* Ẩn cột Ngày (Cột 1) để tiết kiệm diện tích */
-  .data-table th:nth-child(1),
-  .data-table td:nth-child(1) {
+  /* --- ÉP KHUÔN BẢNG VỪA KHÍT MÀN HÌNH --- */
+  .data-table {
+    table-layout: fixed !important;
+    width: 100% !important;
+  }
+  
+  .data-table th, .data-table td {
+    width: auto !important;
+    min-width: 0 !important;
+    padding: 6px 1px !important;
+    word-wrap: break-word !important;
+    white-space: normal !important;
+  }
+
+  /* Ẩn cột Ngày (1) và Cột Giờ (7) để tối ưu triệt để */
+  .data-table th:nth-child(1), .data-table td:nth-child(1),
+  .data-table th:nth-child(7), .data-table td:nth-child(7) {
     display: none !important;
   }
-}
 
+  /* C?t T�n Kho (C?t 2) chi?m t? l? nh? v?a ph?i d? nhu?ng ch? cho gi� */
+  .data-table th:nth-child(2), .data-table td:nth-child(2) {
+    width: 30% !important;
+  }
+
+  input.edit-input {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 2px 1px !important;
+    font-size: 11px !important;
+  }
+}
