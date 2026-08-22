@@ -74,7 +74,7 @@ function sha256_pure(ascii) {
   return result;
 }
 
-// Helper an toàn cho LocalStorage
+// Safe LocalStorage Helper
 const safeStorage = {
   get: function(key) {
     try { return localStorage.getItem(key); } catch(e) { return null; }
@@ -91,9 +91,8 @@ let searchQuery = '';
 let effectiveTime = safeStorage.get('lastEffectiveTime') || '';
 let effectiveDate = safeStorage.get('lastEffectiveDate') || '';
 
-// Master PIN Hashes
+// Master PIN Hashes (888888 là Master PIN duy nhất của Admin Tổng)
 const MASTER_HASH_888888 = '218b8f2762a4d3cf5565507ff5696c21a4f0b2f56f1dc7d8b5a03e6730248a3e';
-const MASTER_HASH_123456 = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92';
 
 let staffList = [];
 let historyLogs = [];
@@ -232,7 +231,7 @@ function renderTable() {
   `).join('');
 }
 
-// Fetch live data ngầm từ Server
+// Fetch live data đồng bộ từ Server
 async function fetchLiveDataFromAPI() {
   try {
     const res = await fetch('/api/sync?t=' + Date.now());
@@ -259,6 +258,9 @@ async function fetchLiveDataFromAPI() {
         historyLogs = result.historyLogs;
         safeStorage.set('customHistoryLogs', JSON.stringify(historyLogs));
       }
+      if (result.masterPinHash) {
+        safeStorage.set('masterPinHash', result.masterPinHash);
+      }
 
       renderFilterButtons();
       renderTable();
@@ -268,14 +270,7 @@ async function fetchLiveDataFromAPI() {
   return false;
 }
 
-// Hiển thị ngay lập tức khi load
-document.addEventListener('DOMContentLoaded', () => {
-  renderFilterButtons();
-  renderTable();
-  fetchLiveDataFromAPI();
-});
-
-// Chạy luôn nếu DOM đã load sẵn
+// Hiển thị ngay lập tức
 renderFilterButtons();
 renderTable();
 fetchLiveDataFromAPI();
@@ -301,7 +296,7 @@ if (btnSync) {
   });
 }
 
-// --- ADMIN DASHBOARD & PIN AUTH (Hỗ trợ 100% mobile) ---
+// --- ADMIN DASHBOARD & STRICT PERMISSIONS ---
 const adminModal = document.getElementById('admin-modal');
 const btnAdminUpdate = document.getElementById('btn-admin-update');
 const modalClose = document.getElementById('modal-close');
@@ -315,6 +310,7 @@ const btnSaveData = document.getElementById('btn-save-data');
 const btnCancelData = document.getElementById('btn-cancel-data');
 const currentUserBadge = document.getElementById('current-user-badge');
 
+const adminTabNav = document.querySelector('.admin-tab-nav');
 const tabBtnUpdate = document.getElementById('tab-btn-update');
 const tabBtnHistory = document.getElementById('tab-btn-history');
 const tabBtnStaff = document.getElementById('tab-btn-staff');
@@ -358,16 +354,16 @@ function closeModal() {
 
 function switchTab(tabName) {
   const tabBtns = {
-    update: document.getElementById('tab-btn-update'),
-    history: document.getElementById('tab-btn-history'),
-    staff: document.getElementById('tab-btn-staff'),
-    pin: document.getElementById('tab-btn-pin')
+    update: tabBtnUpdate,
+    history: tabBtnHistory,
+    staff: tabBtnStaff,
+    pin: tabBtnPin
   };
   const panels = {
-    update: document.getElementById('panel-update'),
-    history: document.getElementById('panel-history'),
-    staff: document.getElementById('panel-staff'),
-    pin: document.getElementById('panel-pin')
+    update: panelUpdate,
+    history: panelHistory,
+    staff: panelStaff,
+    pin: panelPin
   };
 
   Object.keys(tabBtns).forEach(key => {
@@ -397,7 +393,7 @@ if (btnAdminUpdate) btnAdminUpdate.addEventListener('click', openModal);
 if (modalClose) modalClose.addEventListener('click', closeModal);
 if (btnCancelData) btnCancelData.addEventListener('click', closeModal);
 
-// Authenticate PIN (Tương thích 100% mọi trình duyệt)
+// Authenticate PIN (Phân quyền chuẩn xác 100%)
 function checkPin() {
   const entered = pinInput.value.trim();
   if (!entered) return;
@@ -405,16 +401,16 @@ function checkPin() {
   const enteredHash = sha256_pure(entered);
   const storedMasterHash = safeStorage.get('masterPinHash');
 
+  // CHỈ CÓ MASTER PIN MỚI LÀ ADMIN TỔNG
   const isMaster = (entered === '888888') || 
-                   (entered === '123456') || 
                    (storedMasterHash && enteredHash === storedMasterHash) || 
-                   (enteredHash === MASTER_HASH_888888) || 
-                   (enteredHash === MASTER_HASH_123456);
+                   (enteredHash === MASTER_HASH_888888);
 
   if (isMaster) {
     currentUser = { role: 'MASTER', name: 'Admin Tổng' };
     setupAdminView(true);
   } else {
+    // Tìm trong danh sách nhân viên
     const staffMatch = staffList.find(s => s.pinHash === enteredHash || s.rawPin === entered);
     if (staffMatch) {
       currentUser = { role: 'STAFF', name: staffMatch.name };
@@ -432,15 +428,22 @@ function setupAdminView(isMaster) {
   pinError.style.display = 'none';
 
   if (currentUserBadge) {
-    currentUserBadge.textContent = currentUser.name;
+    currentUserBadge.textContent = isMaster ? '👑 Admin Tổng' : `👨‍💼 ${currentUser.name}`;
     currentUserBadge.style.background = isMaster ? '#fef3c7' : '#e0f2fe';
     currentUserBadge.style.color = isMaster ? '#b45309' : '#0369a1';
   }
 
+  // NẾU LÀ NHÂN VIÊN: ẨN HOÀN TOÀN THANH ĐIỀU HƯỚNG TAB
+  if (adminTabNav) {
+    adminTabNav.style.display = isMaster ? 'flex' : 'none';
+  }
+
+  // Ẩn/hiện các tab của Master
   document.querySelectorAll('.master-only').forEach(el => {
     el.style.display = isMaster ? 'inline-block' : 'none';
   });
 
+  // Luôn chuyển về panel Cập nhật giá đầu tiên
   switchTab('update');
   setTimeout(() => dataPasteInput.focus(), 100);
 }
@@ -458,7 +461,7 @@ if (pinInput) {
 
 // Master Admin: Change PIN
 if (btnSavePin) {
-  btnSavePin.addEventListener('click', () => {
+  btnSavePin.addEventListener('click', async () => {
     if (!currentUser || currentUser.role !== 'MASTER') return;
     const p1 = newPinInput.value.trim();
     const p2 = confirmPinInput.value.trim();
@@ -478,6 +481,15 @@ if (btnSavePin) {
 
     const newHash = sha256_pure(p1);
     safeStorage.set('masterPinHash', newHash);
+
+    // Đồng bộ lên Server
+    try {
+      await fetch('/api/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'change_master_pin', masterPinHash: newHash })
+      });
+    } catch (e) {}
 
     pinChangeStatus.textContent = '🎉 Đã đổi mã PIN Admin Tổng thành công!';
     pinChangeStatus.style.color = '#059669';
@@ -645,6 +657,7 @@ if (btnSaveData) {
     if (historyLogs.length > 50) historyLogs = historyLogs.slice(0, 50);
     safeStorage.set('customHistoryLogs', JSON.stringify(historyLogs));
 
+    // Đẩy đồng bộ lên Cloud
     try {
       await fetch('/api/sync', {
         method: 'POST',
@@ -654,7 +667,8 @@ if (btnSaveData) {
           updatedTime: effectiveTime,
           updatedDate: effectiveDate,
           updatedBy: operatorName,
-          historyLogItem: logItem
+          historyLogItem: logItem,
+          staffList: staffList
         })
       });
     } catch (e) {}
