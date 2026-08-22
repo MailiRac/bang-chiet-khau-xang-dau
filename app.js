@@ -324,12 +324,21 @@ async function checkPin() {
   const entered = pinInput.value.trim();
   if (!entered) return;
   
-  const enteredHash = await hashString(entered);
+  let enteredHash = '';
+  try {
+    enteredHash = await hashString(entered);
+  } catch (err) {
+    console.log('Hash calculation error, fallback to direct compare');
+  }
+
   const storedMasterHash = localStorage.getItem('masterPinHash');
 
-  const isMaster = (storedMasterHash && enteredHash === storedMasterHash) || 
-                   (!storedMasterHash && (enteredHash === MASTER_HASH_888888 || enteredHash === MASTER_HASH_123456)) ||
-                   (enteredHash === MASTER_HASH_888888);
+  // Check Master PIN (hỗ trợ hash, mã lưu trữ, và so khớp trực tiếp 888888 & 123456)
+  const isMaster = (entered === '888888') || 
+                   (entered === '123456') || 
+                   (storedMasterHash && enteredHash === storedMasterHash) || 
+                   (enteredHash === MASTER_HASH_888888) || 
+                   (enteredHash === MASTER_HASH_123456);
 
   if (isMaster) {
     // Logged in as Master Admin
@@ -337,7 +346,7 @@ async function checkPin() {
     setupAdminView(true);
   } else {
     // Check if matching any staff
-    const staffMatch = staffList.find(s => s.pinHash === enteredHash);
+    const staffMatch = staffList.find(s => s.pinHash === enteredHash || s.rawPin === entered);
     if (staffMatch) {
       currentUser = { role: 'STAFF', name: staffMatch.name };
       setupAdminView(false);
