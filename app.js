@@ -1,33 +1,117 @@
+// --- PURE JS SHA-256 (Tương thích 100% mọi trình duyệt di động, Zalo, Safari, Chrome) ---
+function sha256_pure(ascii) {
+  function rightRotate(value, amount) {
+    return (value >>> amount) | (value << (32 - amount));
+  }
+  var mathPow = Math.pow;
+  var maxWord = mathPow(2, 32);
+  var lengthProperty = 'length';
+  var i, j;
+  var result = '';
+  var words = [];
+  var asciiBitLength = ascii[lengthProperty] * 8;
+  var hash = [];
+  var k = [];
+  var primeCounter = 0;
+
+  var isPrime = function(n) {
+    for (var factor = 2; factor * factor <= n; factor++) {
+      if (n % factor === 0) return false;
+    }
+    return true;
+  };
+
+  for (var candidate = 2; primeCounter < 64; candidate++) {
+    if (isPrime(candidate)) {
+      if (primeCounter < 8) {
+        hash[primeCounter] = (mathPow(candidate, 0.5) * maxWord) | 0;
+      }
+      k[primeCounter] = (mathPow(candidate, 1 / 3) * maxWord) | 0;
+      primeCounter++;
+    }
+  }
+
+  ascii += '\x80';
+  while (ascii[lengthProperty] % 64 - 56) ascii += '\x00';
+  for (i = 0; i < ascii[lengthProperty]; i++) {
+    j = ascii.charCodeAt(i);
+    if (j >> 8) return;
+    words[i >> 2] |= j << ((3 - i % 4) * 8);
+  }
+  words[words[lengthProperty]] = (asciiBitLength / maxWord) | 0;
+  words[words[lengthProperty]] = asciiBitLength;
+
+  for (j = 0; j < words[lengthProperty];) {
+    var w = words.slice(j, j += 16);
+    var oldHash = hash;
+    hash = hash.slice(0, 8);
+
+    for (i = 0; i < 64; i++) {
+      var w15 = w[i - 15], w2 = w[i - 2];
+      var s0 = rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3);
+      var s1 = rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10);
+      var s2 = (i < 16) ? w[i] : (w[i - 16] + s0 + w[i - 7] + s1) | 0;
+      var ch = (hash[4] & hash[5]) ^ (~hash[4] & hash[6]);
+      var maj = (hash[0] & hash[1]) ^ (hash[0] & hash[2]) ^ (hash[1] & hash[2]);
+      var temp1 = hash[7] + (rightRotate(hash[4], 6) ^ rightRotate(hash[4], 11) ^ rightRotate(hash[4], 25)) + ch + k[i] + s2;
+      var temp2 = (rightRotate(hash[0], 2) ^ rightRotate(hash[0], 13) ^ rightRotate(hash[0], 22)) + maj;
+
+      hash = [(temp1 + temp2) | 0].concat(hash);
+      hash[4] = (hash[4] + temp1) | 0;
+    }
+
+    for (i = 0; i < 8; i++) {
+      hash[i] = (hash[i] + oldHash[i]) | 0;
+    }
+  }
+
+  for (i = 0; i < 8; i++) {
+    for (i2 = 3; i2 >= 0; i2--) {
+      var c = (hash[i] >> (i2 * 8)) & 255;
+      result += ((c < 16) ? '0' : '') + c.toString(16);
+    }
+  }
+  return result;
+}
+
+// Helper an toàn cho LocalStorage
+const safeStorage = {
+  get: function(key) {
+    try { return localStorage.getItem(key); } catch(e) { return null; }
+  },
+  set: function(key, val) {
+    try { localStorage.setItem(key, val); } catch(e) {}
+  }
+};
+
+// Data & State
 let priceData = window.priceData || [];
 let currentRegion = 'ALL';
 let searchQuery = '';
-let effectiveTime = localStorage.getItem('lastEffectiveTime') || '';
-let effectiveDate = localStorage.getItem('lastEffectiveDate') || '';
+let effectiveTime = safeStorage.get('lastEffectiveTime') || '';
+let effectiveDate = safeStorage.get('lastEffectiveDate') || '';
 
-// Master PIN SHA-256 Hashes for "888888" and "123456"
+// Master PIN Hashes
 const MASTER_HASH_888888 = '218b8f2762a4d3cf5565507ff5696c21a4f0b2f56f1dc7d8b5a03e6730248a3e';
 const MASTER_HASH_123456 = '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92';
 
-// Staff List & History Logs
 let staffList = [];
 let historyLogs = [];
-let currentUser = null; // { role: 'MASTER'|'STAFF', name: '...' }
+let currentUser = null;
 
-// Load local storage
+// Khởi tạo từ LocalStorage nếu có
 try {
-  const savedData = localStorage.getItem('customPriceData');
+  const savedData = safeStorage.get('customPriceData');
   if (savedData) {
     const parsed = JSON.parse(savedData);
     if (Array.isArray(parsed) && parsed.length > 0) priceData = parsed;
   }
-  const savedStaff = localStorage.getItem('customStaffList');
+  const savedStaff = safeStorage.get('customStaffList');
   if (savedStaff) staffList = JSON.parse(savedStaff);
 
-  const savedLogs = localStorage.getItem('customHistoryLogs');
+  const savedLogs = safeStorage.get('customHistoryLogs');
   if (savedLogs) historyLogs = JSON.parse(savedLogs);
-} catch (e) {
-  console.log('Error reading local storage:', e);
-}
+} catch (e) {}
 
 // DOM Elements
 const tableBody = document.getElementById('table-body');
@@ -37,14 +121,12 @@ const dateDisplayEl = document.getElementById('date-display');
 const timeDisplayEl = document.getElementById('time-display');
 const btnSync = document.getElementById('btn-sync');
 
-// Helper function to extract supplier name (part before '-')
 function getSupplierName(supplierStr) {
   if (!supplierStr) return '';
   const parts = String(supplierStr).split('-');
   return parts[0].trim().toUpperCase();
 }
 
-// Count unique suppliers in a list
 function countUniqueSuppliers(itemList) {
   const set = new Set();
   itemList.forEach(item => {
@@ -54,7 +136,6 @@ function countUniqueSuppliers(itemList) {
   return set.size;
 }
 
-// Get CSS class for region badge
 function getRegionClass(region) {
   if (!region) return 'other';
   const clean = String(region).toLowerCase();
@@ -65,7 +146,6 @@ function getRegionClass(region) {
   return 'other';
 }
 
-// Format price/discount values
 function formatValue(val) {
   if (val === undefined || val === null || val === '-' || val === '' || val === '0' || val === 0) {
     return `<span class="price-empty">-</span>`;
@@ -73,8 +153,8 @@ function formatValue(val) {
   return `<span class="price-value">${val}</span>`;
 }
 
-// Render region buttons
 function renderFilterButtons() {
+  if (!regionFilters) return;
   const regions = Array.from(new Set(priceData.map(item => item.region).filter(Boolean)));
   const totalUnique = countUniqueSuppliers(priceData);
   
@@ -92,7 +172,6 @@ function renderFilterButtons() {
     regionFilters.appendChild(btn);
   });
 
-  // Event listeners
   regionFilters.querySelectorAll('.pill-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       regionFilters.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
@@ -103,17 +182,18 @@ function renderFilterButtons() {
   });
 }
 
-// Render table rows
 function renderTable() {
-  if (effectiveDate) {
+  if (!tableBody) return;
+
+  if (effectiveDate && dateDisplayEl) {
     dateDisplayEl.textContent = effectiveDate;
-  } else if (priceData.length > 0) {
+  } else if (priceData.length > 0 && dateDisplayEl) {
     dateDisplayEl.textContent = priceData[0].date || '--/--/----';
   }
 
-  if (effectiveTime) {
+  if (effectiveTime && timeDisplayEl) {
     timeDisplayEl.textContent = effectiveTime;
-  } else if (priceData.length > 0) {
+  } else if (priceData.length > 0 && timeDisplayEl) {
     timeDisplayEl.textContent = priceData[0].time || '0:00';
   }
 
@@ -152,45 +232,50 @@ function renderTable() {
   `).join('');
 }
 
-// Fetch live data from Vercel API
+// Fetch live data ngầm từ Server
 async function fetchLiveDataFromAPI() {
   try {
     const res = await fetch('/api/sync?t=' + Date.now());
-    if (!res.ok) throw new Error('API request failed');
+    if (!res.ok) return false;
     const result = await res.json();
     if (result.success) {
       if (Array.isArray(result.data) && result.data.length > 0) {
         priceData = result.data;
-        localStorage.setItem('customPriceData', JSON.stringify(priceData));
+        safeStorage.set('customPriceData', JSON.stringify(priceData));
       }
       if (result.updatedTime) {
         effectiveTime = result.updatedTime;
-        localStorage.setItem('lastEffectiveTime', effectiveTime);
+        safeStorage.set('lastEffectiveTime', effectiveTime);
       }
       if (result.updatedDate) {
         effectiveDate = result.updatedDate;
-        localStorage.setItem('lastEffectiveDate', effectiveDate);
+        safeStorage.set('lastEffectiveDate', effectiveDate);
       }
       if (Array.isArray(result.staffList)) {
         staffList = result.staffList;
-        localStorage.setItem('customStaffList', JSON.stringify(staffList));
+        safeStorage.set('customStaffList', JSON.stringify(staffList));
       }
       if (Array.isArray(result.historyLogs)) {
         historyLogs = result.historyLogs;
-        localStorage.setItem('customHistoryLogs', JSON.stringify(historyLogs));
+        safeStorage.set('customHistoryLogs', JSON.stringify(historyLogs));
       }
 
       renderFilterButtons();
       renderTable();
       return true;
     }
-  } catch (err) {
-    console.log('Chưa có dữ liệu từ sync API, sử dụng dữ liệu cục bộ:', err.message);
-  }
+  } catch (err) {}
   return false;
 }
 
-// Initialize
+// Hiển thị ngay lập tức khi load
+document.addEventListener('DOMContentLoaded', () => {
+  renderFilterButtons();
+  renderTable();
+  fetchLiveDataFromAPI();
+});
+
+// Chạy luôn nếu DOM đã load sẵn
 renderFilterButtons();
 renderTable();
 fetchLiveDataFromAPI();
@@ -216,19 +301,7 @@ if (btnSync) {
   });
 }
 
-// --- SECURE MULTI-USER & PIN MANAGEMENT (SHA-256) ---
-async function hashString(str) {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(str);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
-
-function getStoredMasterPinHash() {
-  return localStorage.getItem('masterPinHash') || DEFAULT_MASTER_HASH;
-}
-
+// --- ADMIN DASHBOARD & PIN AUTH (Hỗ trợ 100% mobile) ---
 const adminModal = document.getElementById('admin-modal');
 const btnAdminUpdate = document.getElementById('btn-admin-update');
 const modalClose = document.getElementById('modal-close');
@@ -242,7 +315,6 @@ const btnSaveData = document.getElementById('btn-save-data');
 const btnCancelData = document.getElementById('btn-cancel-data');
 const currentUserBadge = document.getElementById('current-user-badge');
 
-// Admin Tabs
 const tabBtnUpdate = document.getElementById('tab-btn-update');
 const tabBtnHistory = document.getElementById('tab-btn-history');
 const tabBtnStaff = document.getElementById('tab-btn-staff');
@@ -253,13 +325,11 @@ const panelHistory = document.getElementById('panel-history');
 const panelStaff = document.getElementById('panel-staff');
 const panelPin = document.getElementById('panel-pin');
 
-// Change PIN elements
 const newPinInput = document.getElementById('new-pin-input');
 const confirmPinInput = document.getElementById('confirm-pin-input');
 const btnSavePin = document.getElementById('btn-save-pin');
 const pinChangeStatus = document.getElementById('pin-change-status');
 
-// Staff Management elements
 const newStaffName = document.getElementById('new-staff-name');
 const newStaffPin = document.getElementById('new-staff-pin');
 const btnAddStaff = document.getElementById('btn-add-staff');
@@ -283,7 +353,7 @@ function closeModal() {
   dataPasteInput.value = '';
   newPinInput.value = '';
   confirmPinInput.value = '';
-  pinChangeStatus.style.display = 'none';
+  if (pinChangeStatus) pinChangeStatus.style.display = 'none';
 }
 
 function switchTab(tabName) {
@@ -327,21 +397,14 @@ if (btnAdminUpdate) btnAdminUpdate.addEventListener('click', openModal);
 if (modalClose) modalClose.addEventListener('click', closeModal);
 if (btnCancelData) btnCancelData.addEventListener('click', closeModal);
 
-// Authenticate PIN (Master or Staff)
-async function checkPin() {
+// Authenticate PIN (Tương thích 100% mọi trình duyệt)
+function checkPin() {
   const entered = pinInput.value.trim();
   if (!entered) return;
-  
-  let enteredHash = '';
-  try {
-    enteredHash = await hashString(entered);
-  } catch (err) {
-    console.log('Hash calculation error, fallback to direct compare');
-  }
 
-  const storedMasterHash = localStorage.getItem('masterPinHash');
+  const enteredHash = sha256_pure(entered);
+  const storedMasterHash = safeStorage.get('masterPinHash');
 
-  // Check Master PIN (hỗ trợ hash, mã lưu trữ, và so khớp trực tiếp 888888 & 123456)
   const isMaster = (entered === '888888') || 
                    (entered === '123456') || 
                    (storedMasterHash && enteredHash === storedMasterHash) || 
@@ -349,11 +412,9 @@ async function checkPin() {
                    (enteredHash === MASTER_HASH_123456);
 
   if (isMaster) {
-    // Logged in as Master Admin
     currentUser = { role: 'MASTER', name: 'Admin Tổng' };
     setupAdminView(true);
   } else {
-    // Check if matching any staff
     const staffMatch = staffList.find(s => s.pinHash === enteredHash || s.rawPin === entered);
     if (staffMatch) {
       currentUser = { role: 'STAFF', name: staffMatch.name };
@@ -376,7 +437,6 @@ function setupAdminView(isMaster) {
     currentUserBadge.style.color = isMaster ? '#b45309' : '#0369a1';
   }
 
-  // Show or hide Master-Only tabs
   document.querySelectorAll('.master-only').forEach(el => {
     el.style.display = isMaster ? 'inline-block' : 'none';
   });
@@ -385,16 +445,20 @@ function setupAdminView(isMaster) {
   setTimeout(() => dataPasteInput.focus(), 100);
 }
 
-if (btnSubmitPin) btnSubmitPin.addEventListener('click', checkPin);
+if (btnSubmitPin) {
+  btnSubmitPin.addEventListener('click', checkPin);
+  btnSubmitPin.addEventListener('touchend', (e) => { e.preventDefault(); checkPin(); });
+}
+
 if (pinInput) {
   pinInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') checkPin();
   });
 }
 
-// Master Admin: Change Master PIN
+// Master Admin: Change PIN
 if (btnSavePin) {
-  btnSavePin.addEventListener('click', async () => {
+  btnSavePin.addEventListener('click', () => {
     if (!currentUser || currentUser.role !== 'MASTER') return;
     const p1 = newPinInput.value.trim();
     const p2 = confirmPinInput.value.trim();
@@ -412,8 +476,8 @@ if (btnSavePin) {
       return;
     }
 
-    const newHash = await hashString(p1);
-    localStorage.setItem('masterPinHash', newHash);
+    const newHash = sha256_pure(p1);
+    safeStorage.set('masterPinHash', newHash);
 
     pinChangeStatus.textContent = '🎉 Đã đổi mã PIN Admin Tổng thành công!';
     pinChangeStatus.style.color = '#059669';
@@ -445,19 +509,16 @@ function renderStaffList() {
 window.deleteStaff = async function(index) {
   if (confirm(`Bạn có chắc chắn muốn thu hồi quyền của "${staffList[index].name}" không?`)) {
     staffList.splice(index, 1);
-    localStorage.setItem('customStaffList', JSON.stringify(staffList));
+    safeStorage.set('customStaffList', JSON.stringify(staffList));
     renderStaffList();
     
-    // Sync to API
     try {
       await fetch('/api/sync', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'update_staff', staffList })
       });
-    } catch (e) {
-      console.log('Staff sync error:', e);
-    }
+    } catch (e) {}
   }
 };
 
@@ -471,7 +532,7 @@ if (btnAddStaff) {
       return;
     }
 
-    const pinHash = await hashString(pin);
+    const pinHash = sha256_pure(pin);
     const newStaffObj = {
       id: Date.now(),
       name: name,
@@ -480,12 +541,11 @@ if (btnAddStaff) {
     };
 
     staffList.push(newStaffObj);
-    localStorage.setItem('customStaffList', JSON.stringify(staffList));
+    safeStorage.set('customStaffList', JSON.stringify(staffList));
     newStaffName.value = '';
     newStaffPin.value = '';
     renderStaffList();
 
-    // Sync to API
     try {
       await fetch('/api/sync', {
         method: 'POST',
@@ -493,13 +553,10 @@ if (btnAddStaff) {
         body: JSON.stringify({ action: 'update_staff', staffList })
       });
       alert(`🎉 Đã cấp quyền thành công cho "${name}" với mã PIN riêng!`);
-    } catch (e) {
-      console.log('Staff sync error:', e);
-    }
+    } catch (e) {}
   });
 }
 
-// Master Admin: Render History Logs
 function renderHistoryLogs() {
   if (!historyLogBody) return;
   if (historyLogs.length === 0) {
@@ -516,20 +573,16 @@ function renderHistoryLogs() {
   `).join('');
 }
 
-// Helper to parse pasted JS or JSON data with auto-cleaning Excel quotes
 function parsePastedCode(rawText) {
   if (!rawText) return null;
   let text = rawText.trim();
   
-  // 1. Tự động loại bỏ dấu ngoặc kép bọc ngoài do Excel Clipboard sinh ra (cả " và "")
   while ((text.startsWith('"') && text.endsWith('"')) || (text.startsWith("'") && text.endsWith("'"))) {
     text = text.slice(1, -1).trim();
   }
 
-  // 2. Tự động sửa các dấu "" bị Excel nhân đôi thành "
   text = text.replace(/""/g, '"');
 
-  // 3. Nếu chứa window.priceData = [...];
   if (text.includes('=')) {
     text = text.substring(text.indexOf('=') + 1).trim();
   }
@@ -537,7 +590,6 @@ function parsePastedCode(rawText) {
     text = text.slice(0, -1).trim();
   }
 
-  // 4. Đảm bảo bọc trong mảng [ ... ]
   if (!text.startsWith('[')) {
     text = '[' + text;
   }
@@ -545,7 +597,6 @@ function parsePastedCode(rawText) {
     text = text.replace(/,\s*$/, '') + ']';
   }
 
-  // 5. Phân tích an toàn bằng Function evaluation
   try {
     const fn = new Function('return ' + text + ';');
     const result = fn();
@@ -553,12 +604,11 @@ function parsePastedCode(rawText) {
       return result;
     }
   } catch (err) {
-    console.error('Lỗi khi phân tích dữ liệu dán:', err, '\nĐoạn text đã xử lý:', text);
+    console.error('Lỗi khi phân tích dữ liệu dán:', err);
   }
   return null;
 }
 
-// Save Pasted Data & Stamp Exact Admin Update Time & User Log
 if (btnSaveData) {
   btnSaveData.addEventListener('click', async () => {
     const raw = dataPasteInput.value.trim();
@@ -573,18 +623,16 @@ if (btnSaveData) {
       return;
     }
 
-    // Capture Real Admin Update Time & Date
     const now = new Date();
     effectiveTime = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
     effectiveDate = now.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
     const operatorName = currentUser ? currentUser.name : 'Admin';
 
     priceData = parsed;
-    localStorage.setItem('customPriceData', JSON.stringify(priceData));
-    localStorage.setItem('lastEffectiveTime', effectiveTime);
-    localStorage.setItem('lastEffectiveDate', effectiveDate);
+    safeStorage.set('customPriceData', JSON.stringify(priceData));
+    safeStorage.set('lastEffectiveTime', effectiveTime);
+    safeStorage.set('lastEffectiveDate', effectiveDate);
 
-    // Create History Log Item
     const logItem = {
       id: Date.now(),
       time: effectiveTime,
@@ -595,9 +643,8 @@ if (btnSaveData) {
 
     historyLogs.unshift(logItem);
     if (historyLogs.length > 50) historyLogs = historyLogs.slice(0, 50);
-    localStorage.setItem('customHistoryLogs', JSON.stringify(historyLogs));
+    safeStorage.set('customHistoryLogs', JSON.stringify(historyLogs));
 
-    // Try sync to backend serverless API
     try {
       await fetch('/api/sync', {
         method: 'POST',
@@ -610,9 +657,7 @@ if (btnSaveData) {
           historyLogItem: logItem
         })
       });
-    } catch (e) {
-      console.log('Sync to API error:', e);
-    }
+    } catch (e) {}
 
     renderFilterButtons();
     renderTable();
