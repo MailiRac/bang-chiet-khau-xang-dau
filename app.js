@@ -1,4 +1,4 @@
-// --- PURE JS SHA-256 (Tương thích 100% mọi trình duyệt di động, Zalo, Safari, Chrome) ---
+﻿// --- PURE JS SHA-256 (TÆ°Æ¡ng thÃ­ch 100% má»i trÃ¬nh duyá»‡t di Ä‘á»™ng, Zalo, Safari, Chrome) ---
 function sha256_pure(ascii) {
   function rightRotate(value, amount) {
     return (value >>> amount) | (value << (32 - amount));
@@ -91,14 +91,14 @@ let searchQuery = '';
 let effectiveTime = safeStorage.get('lastEffectiveTime') || '';
 let effectiveDate = safeStorage.get('lastEffectiveDate') || '';
 
-// Master PIN Hashes (888888 là Master PIN duy nhất của Admin Tổng)
+// Master PIN Hashes (888888 lÃ  Master PIN duy nháº¥t cá»§a Admin Tá»•ng)
 const MASTER_HASH_888888 = '218b8f2762a4d3cf5565507ff5696c21a4f0b2f56f1dc7d8b5a03e6730248a3e';
 
 let staffList = [];
 let historyLogs = [];
 let currentUser = null;
 
-// Khởi tạo từ LocalStorage nếu có
+// Khá»Ÿi táº¡o tá»« LocalStorage náº¿u cÃ³
 try {
   const savedData = safeStorage.get('customPriceData');
   if (savedData) {
@@ -138,9 +138,9 @@ function countUniqueSuppliers(itemList) {
 function getRegionClass(region) {
   if (!region) return 'other';
   const clean = String(region).toLowerCase();
-  if (clean.includes('đnb') || clean.includes('dnb')) return 'dnb';
-  if (clean.includes('bắc') || clean.includes('bac')) return 'mb';
-  if (clean.includes('tây') || clean.includes('tay')) return 'mt';
+  if (clean.includes('Ä‘nb') || clean.includes('dnb')) return 'dnb';
+  if (clean.includes('báº¯c') || clean.includes('bac')) return 'mb';
+  if (clean.includes('tÃ¢y') || clean.includes('tay')) return 'mt';
   if (clean.includes('trung')) return 'mtrung';
   return 'other';
 }
@@ -158,7 +158,7 @@ function renderFilterButtons() {
   const totalUnique = countUniqueSuppliers(priceData);
   
   regionFilters.innerHTML = `
-    <button class="pill-btn ${currentRegion === 'ALL' ? 'active' : ''}" data-region="ALL">Tất cả (${totalUnique})</button>
+    <button class="pill-btn ${currentRegion === 'ALL' ? 'active' : ''}" data-region="ALL">Táº¥t cáº£ (${totalUnique})</button>
   `;
 
   regions.forEach(reg => {
@@ -220,7 +220,7 @@ function renderTable() {
       tableBody.innerHTML = `
         <tr>
           <td colspan="8" class="no-data">
-            <p>Không tìm thấy dữ liệu phù hợp.</p>
+            <p>KhÃ´ng tÃ¬m tháº¥y dá»¯ liá»‡u phÃ¹ há»£p.</p>
           </td>
         </tr>
       `;
@@ -233,7 +233,7 @@ function renderTable() {
           <td class="center">${formatValue(row.e10)}</td>
           <td class="center">${formatValue(row.do05)}</td>
           <td class="center">${formatValue(row.do001)}</td>
-          <td class="center" style="color: var(--text-muted); font-size: 0.85rem;">${effectiveTime || row.time || '-'}</td>
+          <td class="center" style="color: var(--text-muted); font-size: 0.85rem;">${row.time || '-'}</td>
           <td class="center">
             <span class="badge-region ${getRegionClass(row.region)}">${row.region || '-'}</span>
           </td>
@@ -243,7 +243,7 @@ function renderTable() {
   }
 }
 
-// Fetch live data đồng bộ từ Server
+// Fetch live data Ä‘á»“ng bá»™ tá»« Server
 async function fetchLiveDataFromAPI() {
   try {
     const res = await fetch('/api/sync?t=' + Date.now());
@@ -282,7 +282,7 @@ async function fetchLiveDataFromAPI() {
   return false;
 }
 
-// Hiển thị ngay lập tức
+// Hiá»ƒn thá»‹ ngay láº­p tá»©c
 renderFilterButtons();
 renderTable();
 fetchLiveDataFromAPI();
@@ -405,7 +405,7 @@ if (btnAdminUpdate) btnAdminUpdate.addEventListener('click', openModal);
 if (modalClose) modalClose.addEventListener('click', closeModal);
 if (btnCancelData) btnCancelData.addEventListener('click', closeModal);
 
-// Authenticate PIN (Phân quyền chuẩn xác 100%)
+// Authenticate PIN (PhÃ¢n quyá»n chuáº©n xÃ¡c 100%)
 function checkPin() {
   const entered = pinInput.value.trim();
   if (!entered) return;
@@ -413,16 +413,16 @@ function checkPin() {
   const enteredHash = sha256_pure(entered);
   const storedMasterHash = safeStorage.get('masterPinHash');
 
-  // CHỈ CÓ MASTER PIN MỚI LÀ ADMIN TỔNG
+  // CHá»ˆ CÃ“ MASTER PIN Má»šI LÃ€ ADMIN Tá»”NG
   const isMaster = (entered === '888888') || 
                    (storedMasterHash && enteredHash === storedMasterHash) || 
                    (enteredHash === MASTER_HASH_888888);
 
   if (isMaster) {
-    currentUser = { role: 'MASTER', name: 'Admin Tổng' };
+    currentUser = { role: 'MASTER', name: 'Admin Tá»•ng' };
     setupAdminView(true);
   } else {
-    // Tìm trong danh sách nhân viên
+    // TÃ¬m trong danh sÃ¡ch nhÃ¢n viÃªn
     const staffMatch = staffList.find(s => s.pinHash === enteredHash || s.rawPin === entered);
     if (staffMatch) {
       currentUser = { role: 'STAFF', name: staffMatch.name };
@@ -440,22 +440,22 @@ function setupAdminView(isMaster) {
   pinError.style.display = 'none';
 
   if (currentUserBadge) {
-    currentUserBadge.textContent = isMaster ? '👑 Admin Tổng' : `👨‍💼 ${currentUser.name}`;
+    currentUserBadge.textContent = isMaster ? 'ðŸ‘‘ Admin Tá»•ng' : `ðŸ‘¨â€ðŸ’¼ ${currentUser.name}`;
     currentUserBadge.style.background = isMaster ? '#fef3c7' : '#e0f2fe';
     currentUserBadge.style.color = isMaster ? '#b45309' : '#0369a1';
   }
 
-  // NẾU LÀ NHÂN VIÊN: ẨN HOÀN TOÀN THANH ĐIỀU HƯỚNG TAB
+  // Náº¾U LÃ€ NHÃ‚N VIÃŠN: áº¨N HOÃ€N TOÃ€N THANH ÄIá»€U HÆ¯á»šNG TAB
   if (adminTabNav) {
     adminTabNav.style.display = isMaster ? 'flex' : 'none';
   }
 
-  // Ẩn/hiện các tab của Master
+  // áº¨n/hiá»‡n cÃ¡c tab cá»§a Master
   document.querySelectorAll('.master-only').forEach(el => {
     el.style.display = isMaster ? 'inline-block' : 'none';
   });
 
-  // Luôn chuyển về panel Cập nhật giá đầu tiên
+  // LuÃ´n chuyá»ƒn vá» panel Cáº­p nháº­t giÃ¡ Ä‘áº§u tiÃªn
   switchTab('update');
   setTimeout(() => dataPasteInput.focus(), 100);
 }
@@ -479,13 +479,13 @@ if (btnSavePin) {
     const p2 = confirmPinInput.value.trim();
 
     if (!p1) {
-      pinChangeStatus.textContent = '❌ Mã PIN mới không được để trống!';
+      pinChangeStatus.textContent = 'âŒ MÃ£ PIN má»›i khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng!';
       pinChangeStatus.style.color = '#dc2626';
       pinChangeStatus.style.display = 'block';
       return;
     }
     if (p1 !== p2) {
-      pinChangeStatus.textContent = '❌ Mã PIN xác nhận không khớp!';
+      pinChangeStatus.textContent = 'âŒ MÃ£ PIN xÃ¡c nháº­n khÃ´ng khá»›p!';
       pinChangeStatus.style.color = '#dc2626';
       pinChangeStatus.style.display = 'block';
       return;
@@ -494,7 +494,7 @@ if (btnSavePin) {
     const newHash = sha256_pure(p1);
     safeStorage.set('masterPinHash', newHash);
 
-    // Đồng bộ lên Server
+    // Äá»“ng bá»™ lÃªn Server
     try {
       await fetch('/api/sync', {
         method: 'POST',
@@ -503,7 +503,7 @@ if (btnSavePin) {
       });
     } catch (e) {}
 
-    pinChangeStatus.textContent = '🎉 Đã đổi mã PIN Admin Tổng thành công!';
+    pinChangeStatus.textContent = 'ðŸŽ‰ ÄÃ£ Ä‘á»•i mÃ£ PIN Admin Tá»•ng thÃ nh cÃ´ng!';
     pinChangeStatus.style.color = '#059669';
     pinChangeStatus.style.display = 'block';
     newPinInput.value = '';
@@ -515,7 +515,7 @@ if (btnSavePin) {
 function renderStaffList() {
   if (!staffListContainer) return;
   if (staffList.length === 0) {
-    staffListContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem; padding: 10px 0;">Chưa có nhân sự nào được phân quyền.</p>';
+    staffListContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 0.85rem; padding: 10px 0;">ChÆ°a cÃ³ nhÃ¢n sá»± nÃ o Ä‘Æ°á»£c phÃ¢n quyá»n.</p>';
     return;
   }
 
@@ -523,15 +523,15 @@ function renderStaffList() {
     <div class="staff-item">
       <div class="staff-info">
         <span class="staff-name">${st.name}</span>
-        <span class="staff-pin-hint">Tạo lúc: ${st.createdAt || 'N/A'}</span>
+        <span class="staff-pin-hint">Táº¡o lÃºc: ${st.createdAt || 'N/A'}</span>
       </div>
-      <button class="btn-delete-staff" onclick="deleteStaff(${idx})">🗑️ Xóa</button>
+      <button class="btn-delete-staff" onclick="deleteStaff(${idx})">ðŸ—‘ï¸ XÃ³a</button>
     </div>
   `).join('');
 }
 
 window.deleteStaff = async function(index) {
-  if (confirm(`Bạn có chắc chắn muốn thu hồi quyền của "${staffList[index].name}" không?`)) {
+  if (confirm(`Báº¡n cÃ³ cháº¯c cháº¯n muá»‘n thu há»“i quyá»n cá»§a "${staffList[index].name}" khÃ´ng?`)) {
     staffList.splice(index, 1);
     safeStorage.set('customStaffList', JSON.stringify(staffList));
     renderStaffList();
@@ -552,7 +552,7 @@ if (btnAddStaff) {
     const pin = newStaffPin.value.trim();
 
     if (!name || !pin) {
-      alert('Vui lòng nhập đầy đủ tên nhân viên và mã PIN!');
+      alert('Vui lÃ²ng nháº­p Ä‘áº§y Ä‘á»§ tÃªn nhÃ¢n viÃªn vÃ  mÃ£ PIN!');
       return;
     }
 
@@ -576,7 +576,7 @@ if (btnAddStaff) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'update_staff', staffList })
       });
-      alert(`🎉 Đã cấp quyền thành công cho "${name}" với mã PIN riêng!`);
+      alert(`ðŸŽ‰ ÄÃ£ cáº¥p quyá»n thÃ nh cÃ´ng cho "${name}" vá»›i mÃ£ PIN riÃªng!`);
     } catch (e) {}
   });
 }
@@ -584,7 +584,7 @@ if (btnAddStaff) {
 function renderHistoryLogs() {
   if (!historyLogBody) return;
   if (historyLogs.length === 0) {
-    historyLogBody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 16px;">Chưa có nhật ký cập nhật nào.</td></tr>';
+    historyLogBody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: var(--text-muted); padding: 16px;">ChÆ°a cÃ³ nháº­t kÃ½ cáº­p nháº­t nÃ o.</td></tr>';
     return;
   }
 
@@ -592,7 +592,7 @@ function renderHistoryLogs() {
     <tr>
       <td>${log.time} - ${log.date}</td>
       <td><strong>${log.user || 'Admin'}</strong></td>
-      <td class="center"><span class="price-value" style="font-size: 0.775rem;">${log.total} ĐM</span></td>
+      <td class="center"><span class="price-value" style="font-size: 0.775rem;">${log.total} ÄM</span></td>
     </tr>
   `).join('');
 }
@@ -628,7 +628,7 @@ function parsePastedCode(rawText) {
       return result;
     }
   } catch (err) {
-    console.error('Lỗi khi phân tích dữ liệu dán:', err);
+    console.error('Lá»—i khi phÃ¢n tÃ­ch dá»¯ liá»‡u dÃ¡n:', err);
   }
   return null;
 }
@@ -637,13 +637,13 @@ if (btnSaveData) {
   btnSaveData.addEventListener('click', async () => {
     const raw = dataPasteInput.value.trim();
     if (!raw) {
-      alert('Vui lòng dán dữ liệu từ ô Excel vào khung!');
+      alert('Vui lÃ²ng dÃ¡n dá»¯ liá»‡u tá»« Ã´ Excel vÃ o khung!');
       return;
     }
 
     const parsed = parsePastedCode(raw);
     if (!parsed || parsed.length === 0) {
-      alert('❌ Dữ liệu không đúng định dạng. Vui lòng copy đúng ô công thức từ Excel!');
+      alert('âŒ Dá»¯ liá»‡u khÃ´ng Ä‘Ãºng Ä‘á»‹nh dáº¡ng. Vui lÃ²ng copy Ä‘Ãºng Ã´ cÃ´ng thá»©c tá»« Excel!');
       return;
     }
 
@@ -669,7 +669,7 @@ if (btnSaveData) {
     if (historyLogs.length > 50) historyLogs = historyLogs.slice(0, 50);
     safeStorage.set('customHistoryLogs', JSON.stringify(historyLogs));
 
-    // Đẩy đồng bộ lên Cloud
+    // Äáº©y Ä‘á»“ng bá»™ lÃªn Cloud
     try {
       await fetch('/api/sync', {
         method: 'POST',
@@ -688,7 +688,8 @@ if (btnSaveData) {
     renderFilterButtons();
     renderTable();
     closeModal();
-    alert(`🎉 Cập nhật thành công ${priceData.length} nhà phân phối!\n👤 Người thực hiện: ${operatorName}\n⏰ Giờ hiệu lực: ${effectiveTime} - ${effectiveDate}`);
+    alert(`ðŸŽ‰ Cáº­p nháº­t thÃ nh cÃ´ng ${priceData.length} nhÃ  phÃ¢n phá»‘i!\nðŸ‘¤ NgÆ°á»i thá»±c hiá»‡n: ${operatorName}\nâ° Giá» hiá»‡u lá»±c: ${effectiveTime} - ${effectiveDate}`);
   });
 }
+
 

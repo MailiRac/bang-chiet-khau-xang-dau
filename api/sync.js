@@ -4,6 +4,7 @@ const https = require('https');
 const GITHUB_OWNER = 'MailiRac';
 const GITHUB_REPO = 'bang-chiet-khau-xang-dau';
 const DB_FILE_PATH = 'db.json'; // Database trung tâm
+const GITHUB_BRANCH = 'database'; // Phân vùng lưu trữ riêng biệt
 
 // Ghép chuỗi phân mảnh nhỏ để bypass GitHub Push Protection
 const P1 = 'gh'; const P2 = 'p_Lp'; const P3 = 'd76P'; const P4 = 'o8NHxJ';
@@ -20,7 +21,7 @@ function githubRequest(path, method, body) {
         'User-Agent': 'Petro-Sync-App',
         'Authorization': `token ${GITHUB_TOKEN}`,
         'Content-Type': 'application/json',
-        'Cache-Control': 'no-cache' // Chống cache
+        'Cache-Control': 'no-cache'
       }
     };
     const req = https.request(options, (res) => {
@@ -40,24 +41,25 @@ function githubRequest(path, method, body) {
 // Hàm ghi dữ liệu vào GitHub
 async function writeDatabaseToGitHub(dbObject) {
   try {
-    const getRes = await githubRequest(`/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DB_FILE_PATH}`, 'GET');
+    const getRes = await githubRequest(`/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DB_FILE_PATH}?ref=${GITHUB_BRANCH}`, 'GET');
     const sha = (getRes.data && getRes.data.sha) ? getRes.data.sha : undefined;
     const contentBase64 = Buffer.from(JSON.stringify(dbObject, null, 2), 'utf8').toString('base64');
 
     const putBody = {
       message: `Database sync: ${dbObject.updatedTime || 'Auto'}`,
       content: contentBase64,
-      sha: sha
+      sha: sha,
+      branch: GITHUB_BRANCH
     };
     await githubRequest(`/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DB_FILE_PATH}`, 'PUT', putBody);
     
     // Đổ dữ liệu tĩnh vào data.js luôn để có fallback offline
     if (Array.isArray(dbObject.data)) {
-      const dataJsRes = await githubRequest(`/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data.js`, 'GET');
+      const dataJsRes = await githubRequest(`/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data.js?ref=${GITHUB_BRANCH}`, 'GET');
       const dataJsSha = (dataJsRes.data && dataJsRes.data.sha) ? dataJsRes.data.sha : undefined;
       const dataJsBase64 = Buffer.from(`window.priceData = ${JSON.stringify(dbObject.data, null, 2)};\n`, 'utf8').toString('base64');
       await githubRequest(`/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/data.js`, 'PUT', {
-        message: `Update data.js fallback`, content: dataJsBase64, sha: dataJsSha
+        message: `Update data.js fallback`, content: dataJsBase64, sha: dataJsSha, branch: GITHUB_BRANCH
       });
     }
   } catch (err) {
@@ -69,7 +71,7 @@ async function writeDatabaseToGitHub(dbObject) {
 async function readDatabaseFromGitHub() {
   try {
     // Thêm timestamp để bypass cache tuyệt đối
-    const getRes = await githubRequest(`/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DB_FILE_PATH}?t=${Date.now()}`, 'GET');
+    const getRes = await githubRequest(`/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DB_FILE_PATH}?ref=${GITHUB_BRANCH}&t=${Date.now()}`, 'GET');
     if (getRes.status === 200 && getRes.data && getRes.data.content) {
       const contentStr = Buffer.from(getRes.data.content, 'base64').toString('utf8');
       return JSON.parse(contentStr);
