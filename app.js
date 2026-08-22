@@ -287,24 +287,32 @@ function closeModal() {
 }
 
 function switchTab(tabName) {
-  const tabs = [
-    { btn: tabBtnUpdate, panel: panelUpdate, name: 'update' },
-    { btn: tabBtnHistory, panel: panelHistory, name: 'history' },
-    { btn: tabBtnStaff, panel: panelStaff, name: 'staff' },
-    { btn: tabBtnPin, panel: panelPin, name: 'pin' }
-  ];
+  const tabBtns = {
+    update: document.getElementById('tab-btn-update'),
+    history: document.getElementById('tab-btn-history'),
+    staff: document.getElementById('tab-btn-staff'),
+    pin: document.getElementById('tab-btn-pin')
+  };
+  const panels = {
+    update: document.getElementById('panel-update'),
+    history: document.getElementById('panel-history'),
+    staff: document.getElementById('panel-staff'),
+    pin: document.getElementById('panel-pin')
+  };
 
-  tabs.forEach(t => {
-    if (t.btn && t.panel) {
-      if (t.name === tabName) {
-        t.btn.classList.add('active');
-        t.panel.classList.add('active');
-      } else {
-        t.btn.classList.remove('active');
-        t.panel.classList.remove('active');
-      }
+  Object.keys(tabBtns).forEach(key => {
+    if (tabBtns[key]) tabBtns[key].classList.remove('active');
+    if (panels[key]) {
+      panels[key].classList.remove('active');
+      panels[key].style.display = 'none';
     }
   });
+
+  if (tabBtns[tabName]) tabBtns[tabName].classList.add('active');
+  if (panels[tabName]) {
+    panels[tabName].classList.add('active');
+    panels[tabName].style.display = 'block';
+  }
 
   if (tabName === 'history') renderHistoryLogs();
   if (tabName === 'staff') renderStaffList();
