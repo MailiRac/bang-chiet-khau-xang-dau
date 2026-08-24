@@ -347,7 +347,7 @@
       "id": "1787565272866",
       "email": "admin@petro.vn",
       "fullName": "Nguyen Van Admin",
-      "password_hash": "$2b$10$W2eHW8s.Y2qLSE3e0.NGeeEG6wgjzSllbbX/8w.KjPLIrXrE7zMUa",
+      "password_hash": "$2b$10$O8XC1XPGxCMbVw4iE5ebze5nlxIV6KFQFBI/8DIIR/wsVyOHzqrAy",
       "role": "USER",
       "status": "ACTIVE",
       "email_verified": true,
@@ -366,14 +366,13 @@
       "user_email": "admin@petro.vn",
       "action": "REGISTER_OTP_VERIFIED",
       "created_at": "2026-08-24T09:54:32.866Z"
+    },
+    {
+      "id": 1787565277150,
+      "user_email": "admin@petro.vn",
+      "action": "RESET_PASSWORD_SUCCESS",
+      "created_at": "2026-08-24T09:54:37.150Z"
     }
   ],
-  "otpStore": [
-    {
-      "email": "admin@petro.vn",
-      "otp": "318230",
-      "type": "FORGOT_PASSWORD",
-      "expires_at": 1787565875148
-    }
-  ]
+  "otpStore": []
 }
