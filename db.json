@@ -343,6 +343,17 @@
       "status": "ACTIVE",
       "email_verified": true,
       "created_at": "2026-08-24T10:05:47.673Z"
+    },
+    {
+      "id": "1787566686131",
+      "email": "boss.petro@gmail.com",
+      "fullName": "Boss Petro",
+      "password_hash": "SSO_GOOGLE_1787566686131",
+      "role": "USER",
+      "status": "ACTIVE",
+      "sso_provider": "google",
+      "email_verified": true,
+      "created_at": "2026-08-24T10:18:06.131Z"
     }
   ],
   "auditLogs": [
@@ -357,6 +368,12 @@
       "user_email": "duyennvh@gmail.com",
       "action": "RESET_PASSWORD_SUCCESS",
       "created_at": "2026-08-24T10:15:45.706Z"
+    },
+    {
+      "id": 1787566686132,
+      "user_email": "boss.petro@gmail.com",
+      "action": "GOOGLE_SIGNUP",
+      "created_at": "2026-08-24T10:18:06.132Z"
     }
   ],
   "otpStore": []
