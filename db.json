@@ -338,7 +338,7 @@
       "id": "1787565947673",
       "email": "duyennvh@gmail.com",
       "fullName": "Bá chủ",
-      "password_hash": "$2b$10$CBsh/F0c94snCYUdQ77eXuX/KDwO1AgLrznsGvnMv3qA4vW8Ga.dy",
+      "password_hash": "$2b$10$20cA2ebvSC5jkfOD6rz0k.AowKbIBYXtJGsCIDNjWHztVc12DUSd6",
       "role": "ADMIN",
       "status": "ACTIVE",
       "email_verified": true,
@@ -351,14 +351,13 @@
       "user_email": "duyennvh@gmail.com",
       "action": "REGISTER_OTP_VERIFIED",
       "created_at": "2026-08-24T10:05:47.673Z"
+    },
+    {
+      "id": 1787566545706,
+      "user_email": "duyennvh@gmail.com",
+      "action": "RESET_PASSWORD_SUCCESS",
+      "created_at": "2026-08-24T10:15:45.706Z"
     }
   ],
-  "otpStore": [
-    {
-      "email": "duyennvh@gmail.com",
-      "otp": "367010",
-      "type": "FORGOT_PASSWORD",
-      "expires_at": 1787567091284
-    }
-  ]
+  "otpStore": []
 }
