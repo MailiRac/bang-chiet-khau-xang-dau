@@ -333,46 +333,7 @@
   "updatedTime": "10:37",
   "updatedDate": "24/08/2026",
   "updatedBy": "Admin Tá»•ng",
-  "users": [
-    {
-      "id": "1787549457940",
-      "email": "anha@gmail.com",
-      "password_hash": "$2b$10$bX2r10nlIe.ccPZtAn5GHeL7p2S3uYsyOM.VDjVTb3.mNsxNHvhKG",
-      "fullName": "Anh A",
-      "role": "ADMIN",
-      "status": "ACTIVE",
-      "created_at": "2026-08-24T05:30:57.940Z"
-    },
-    {
-      "id": "1787565272866",
-      "email": "admin@petro.vn",
-      "fullName": "Nguyen Van Admin",
-      "password_hash": "$2b$10$O8XC1XPGxCMbVw4iE5ebze5nlxIV6KFQFBI/8DIIR/wsVyOHzqrAy",
-      "role": "USER",
-      "status": "ACTIVE",
-      "email_verified": true,
-      "created_at": "2026-08-24T09:54:32.866Z"
-    }
-  ],
-  "auditLogs": [
-    {
-      "id": 1787549457940,
-      "user_email": "anha@gmail.com",
-      "action": "REGISTER",
-      "created_at": "2026-08-24T05:30:57.940Z"
-    },
-    {
-      "id": 1787565272866,
-      "user_email": "admin@petro.vn",
-      "action": "REGISTER_OTP_VERIFIED",
-      "created_at": "2026-08-24T09:54:32.866Z"
-    },
-    {
-      "id": 1787565277150,
-      "user_email": "admin@petro.vn",
-      "action": "RESET_PASSWORD_SUCCESS",
-      "created_at": "2026-08-24T09:54:37.150Z"
-    }
-  ],
+  "users": [],
+  "auditLogs": [],
   "otpStore": []
 }
