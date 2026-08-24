@@ -368,5 +368,12 @@
       "created_at": "2026-08-24T09:54:32.866Z"
     }
   ],
-  "otpStore": []
+  "otpStore": [
+    {
+      "email": "admin@petro.vn",
+      "otp": "318230",
+      "type": "FORGOT_PASSWORD",
+      "expires_at": 1787565875148
+    }
+  ]
 }
