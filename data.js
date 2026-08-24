@@ -1,6 +1,16 @@
 window.priceData = [
   {
     "date": "24/08/2026",
+    "supplier": "NAM PHÚC - NHÀ BÈ",
+    "e5": 0,
+    "e10": 600,
+    "do05": 1200,
+    "do001": 0,
+    "time": "0:00",
+    "region": "ĐNB"
+  },
+  {
+    "date": "24/08/2026",
     "supplier": "ANH PHÁT PETRO - PVOIL",
     "e5": 0,
     "e10": 600,
@@ -21,6 +31,16 @@ window.priceData = [
   },
   {
     "date": "24/08/2026",
+    "supplier": "BÌNH MINH - MÔNG DƯƠNG",
+    "e5": 0,
+    "e10": 850,
+    "do05": 1150,
+    "do001": 0,
+    "time": "9:00",
+    "region": "Miền Bắc"
+  },
+  {
+    "date": "24/08/2026",
     "supplier": "HỒNG ĐỨC - NHÀ BÈ",
     "e5": 0,
     "e10": 600,
@@ -37,6 +57,36 @@ window.priceData = [
     "do05": 850,
     "do001": 950,
     "time": "0:00",
+    "region": "Miền Tây"
+  },
+  {
+    "date": "24/08/2026",
+    "supplier": "PETRO TIMES - NHÀ BÈ",
+    "e5": 0,
+    "e10": 600,
+    "do05": 1220,
+    "do001": 0,
+    "time": "0:00",
+    "region": "ĐNB"
+  },
+  {
+    "date": "24/08/2026",
+    "supplier": "PETROMEKONG - TỔNG KHO",
+    "e5": 750,
+    "e10": 750,
+    "do05": 900,
+    "do001": 1000,
+    "time": "7:30",
+    "region": "Miền Tây"
+  },
+  {
+    "date": "24/08/2026",
+    "supplier": "PETROMEKONG - TRUNG CHUYỂN",
+    "e5": 600,
+    "e10": 600,
+    "do05": 750,
+    "do001": 850,
+    "time": "7:30",
     "region": "Miền Tây"
   },
   {
@@ -158,5 +208,35 @@ window.priceData = [
     "do001": 1250,
     "time": "7:00",
     "region": "Miền Bắc"
+  },
+  {
+    "date": "24/08/2026",
+    "supplier": "SAIGONPETRO - SAIGONPETRO",
+    "e5": 400,
+    "e10": 400,
+    "do05": 1000,
+    "do001": 800,
+    "time": "7:30",
+    "region": "ĐNB"
+  },
+  {
+    "date": "24/08/2026",
+    "supplier": "SE - CẦN THƠ",
+    "e5": 0,
+    "e10": 500,
+    "do05": 850,
+    "do001": 850,
+    "time": "8:00",
+    "region": "Miền Tây"
+  },
+  {
+    "date": "24/08/2026",
+    "supplier": "STS TÂY NAM BỘ - TNB",
+    "e5": 0,
+    "e10": 600,
+    "do05": 800,
+    "do001": 0,
+    "time": "8:00",
+    "region": "Miền Tây"
   }
 ];
