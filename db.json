@@ -335,5 +335,16 @@
   "updatedBy": "Admin Tá»•ng",
   "users": [],
   "auditLogs": [],
-  "otpStore": []
+  "otpStore": [
+    {
+      "email": "duyennvh@gmail.com",
+      "otp": "530631",
+      "type": "REGISTER",
+      "payload": {
+        "fullName": "Bá chủ",
+        "password_hash": "$2b$10$CBsh/F0c94snCYUdQ77eXuX/KDwO1AgLrznsGvnMv3qA4vW8Ga.dy"
+      },
+      "expires_at": 1787566520504
+    }
+  ]
 }
