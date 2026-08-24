@@ -1,278 +1,225 @@
 {
   "data": [
     {
-      "date": "24/08/2026",
-      "supplier": "NAM PHÚC - NHÀ BÈ",
-      "e5": 0,
-      "e10": 600,
-      "do05": 1200,
-      "do001": 0,
-      "time": "0:00",
-      "region": "ĐNB"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "ANH PHÁT PETRO - PVOIL",
-      "e5": 0,
-      "e10": 600,
-      "do05": 1200,
-      "do001": 0,
-      "time": "0:00",
-      "region": "ĐNB"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "ANH PHÁT PETRO - AP NGHI SƠN",
-      "e5": 0,
-      "e10": 800,
-      "do05": 1200,
-      "do001": 1200,
-      "time": "9:30",
-      "region": "Miền Trung"
-    },
-    {
-      "date": "24/08/2026",
+      "date": "25/08/2026",
       "supplier": "BÌNH MINH - MÔNG DƯƠNG",
       "e5": 0,
-      "e10": 850,
-      "do05": 1150,
+      "e10": 900,
+      "do05": 1300,
       "do001": 0,
-      "time": "9:00",
+      "time": "0:00",
       "region": "Miền Bắc"
     },
     {
-      "date": "24/08/2026",
-      "supplier": "HỒNG ĐỨC - NHÀ BÈ",
+      "date": "25/08/2026",
+      "supplier": "HOÀNG TRỌNG - HẢI LINH",
       "e5": 0,
-      "e10": 600,
-      "do05": 1200,
+      "e10": 950,
+      "do05": 1250,
       "do001": 0,
       "time": "0:00",
-      "region": "ĐNB"
+      "region": "Miền Bắc"
     },
     {
-      "date": "24/08/2026",
-      "supplier": "MEKONG - TỔNG KHO",
-      "e5": 600,
-      "e10": 600,
-      "do05": 850,
-      "do001": 950,
-      "time": "0:00",
-      "region": "Miền Tây"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "PETIMEX - PETIMEX",
+      "date": "25/08/2026",
+      "supplier": "HOÀNG TRỌNG - PETEC",
       "e5": 0,
-      "e10": 750,
-      "do05": 1050,
-      "do001": 1200,
-      "time": "0:00",
-      "region": "Miền Tây"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "PETRO TIMES - NHÀ BÈ",
-      "e5": 0,
-      "e10": 600,
-      "do05": 1220,
+      "e10": 0,
+      "do05": 1250,
       "do001": 0,
       "time": "0:00",
-      "region": "ĐNB"
+      "region": "Miền Bắc"
     },
     {
-      "date": "24/08/2026",
-      "supplier": "PETROMEKONG - TỔNG KHO",
-      "e5": 750,
-      "e10": 750,
-      "do05": 900,
-      "do001": 1000,
-      "time": "7:30",
-      "region": "Miền Tây"
+      "date": "25/08/2026",
+      "supplier": "HOÀNG TRỌNG - ĐÌNH VŨ",
+      "e5": 0,
+      "e10": 0,
+      "do05": 1250,
+      "do001": 0,
+      "time": "0:00",
+      "region": "Miền Bắc"
     },
     {
-      "date": "24/08/2026",
-      "supplier": "PETROMEKONG - TRUNG CHUYỂN",
-      "e5": 600,
-      "e10": 600,
-      "do05": 750,
-      "do001": 850,
-      "time": "7:30",
-      "region": "Miền Tây"
+      "date": "25/08/2026",
+      "supplier": "HOÀNG TRỌNG - NAM VINH",
+      "e5": 0,
+      "e10": 0,
+      "do05": 1250,
+      "do001": 0,
+      "time": "0:00",
+      "region": "Miền Bắc"
     },
     {
-      "date": "24/08/2026",
+      "date": "25/08/2026",
+      "supplier": "HOÀNG TRỌNG - K99",
+      "e5": 0,
+      "e10": 0,
+      "do05": 1250,
+      "do001": 0,
+      "time": "0:00",
+      "region": "Miền Bắc"
+    },
+    {
+      "date": "25/08/2026",
+      "supplier": "HOÀNG TRỌNG - NGHI SƠN",
+      "e5": 0,
+      "e10": 0,
+      "do05": 1250,
+      "do001": 1600,
+      "time": "0:00",
+      "region": "Miền Trung"
+    },
+    {
+      "date": "25/08/2026",
+      "supplier": "HOÀNG TRỌNG - HOÀNG HUY",
+      "e5": 0,
+      "e10": 0,
+      "do05": 0,
+      "do001": 1600,
+      "time": "0:00",
+      "region": "Miền Bắc"
+    },
+    {
+      "date": "25/08/2026",
+      "supplier": "HOÀNG TRỌNG - BẮC NINH",
+      "e5": 0,
+      "e10": 800,
+      "do05": 0,
+      "do001": 0,
+      "time": "0:00",
+      "region": "Miền Bắc"
+    },
+    {
+      "date": "25/08/2026",
       "supplier": "PVOIL HÀ NỘI - ĐÌNH VŨ",
-      "e5": 900,
-      "e10": 900,
-      "do05": 1000,
-      "do001": 1300,
-      "time": "7:00",
+      "e5": 1000,
+      "e10": 1000,
+      "do05": 1350,
+      "do001": 1500,
+      "time": "0:00",
       "region": "Miền Bắc"
     },
     {
-      "date": "24/08/2026",
+      "date": "25/08/2026",
       "supplier": "PVOIL HÀ NỘI - PETEC",
-      "e5": 900,
-      "e10": 900,
-      "do05": 1000,
-      "do001": 1300,
-      "time": "7:00",
+      "e5": 1000,
+      "e10": 1000,
+      "do05": 1350,
+      "do001": 1500,
+      "time": "0:00",
       "region": "Miền Bắc"
     },
     {
-      "date": "24/08/2026",
+      "date": "25/08/2026",
       "supplier": "PVOIL HÀ NỘI - CÁI LÂN",
+      "e5": 1000,
+      "e10": 1000,
+      "do05": 1350,
+      "do001": 1500,
+      "time": "0:00",
+      "region": "Miền Bắc"
+    },
+    {
+      "date": "25/08/2026",
+      "supplier": "PVOIL HÀ NỘI - BẠCH HẠC",
       "e5": 900,
       "e10": 900,
-      "do05": 1000,
-      "do001": 1300,
-      "time": "7:00",
-      "region": "Miền Bắc"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "PVOIL HÀ NỘI - BẠCH HẠC",
-      "e5": 850,
-      "e10": 850,
-      "do05": 950,
+      "do05": 1250,
       "do001": 0,
-      "time": "7:00",
+      "time": "0:00",
       "region": "Miền Bắc"
     },
     {
-      "date": "24/08/2026",
+      "date": "25/08/2026",
       "supplier": "PVOIL HÀ NỘI - BẮC GIANG",
       "e5": 0,
-      "e10": 850,
-      "do05": 950,
-      "do001": 1250,
-      "time": "7:00",
+      "e10": 900,
+      "do05": 1250,
+      "do001": 1400,
+      "time": "0:00",
       "region": "Miền Bắc"
     },
     {
-      "date": "24/08/2026",
+      "date": "25/08/2026",
       "supplier": "PVOIL HÀ NỘI - THÁI NGUYÊN",
       "e5": 0,
+      "e10": 900,
+      "do05": 1250,
+      "do001": 1400,
+      "time": "0:00",
+      "region": "Miền Bắc"
+    },
+    {
+      "date": "25/08/2026",
+      "supplier": "PVOIL THÁI NGUYÊN - AN HẢI",
+      "e5": 0,
+      "e10": 1000,
+      "do05": 1350,
+      "do001": 0,
+      "time": "0:00",
+      "region": "Miền Bắc"
+    },
+    {
+      "date": "25/08/2026",
+      "supplier": "PVOIL THÁI NGUYÊN - ĐÌNH VŨ",
+      "e5": 950,
+      "e10": 1000,
+      "do05": 1350,
+      "do001": 1450,
+      "time": "0:00",
+      "region": "Miền Bắc"
+    },
+    {
+      "date": "25/08/2026",
+      "supplier": "PVOIL THÁI NGUYÊN - CÁI LÂN",
+      "e5": 0,
+      "e10": 1000,
+      "do05": 1350,
+      "do001": 0,
+      "time": "0:00",
+      "region": "Miền Bắc"
+    },
+    {
+      "date": "25/08/2026",
+      "supplier": "PVOIL THÁI NGUYÊN - NAM VINH",
+      "e5": 0,
+      "e10": 0,
+      "do05": 1350,
+      "do001": 0,
+      "time": "0:00",
+      "region": "Miền Bắc"
+    },
+    {
+      "date": "25/08/2026",
+      "supplier": "PVOIL THÁI NGUYÊN - HOÀNG HUY",
+      "e5": 0,
+      "e10": 0,
+      "do05": 0,
+      "do001": 1600,
+      "time": "0:00",
+      "region": "Miền Bắc"
+    },
+    {
+      "date": "25/08/2026",
+      "supplier": "PVOIL THÁI NGUYÊN - BẮC NINH",
+      "e5": 0,
       "e10": 850,
-      "do05": 950,
-      "do001": 1250,
-      "time": "7:00",
-      "region": "Miền Bắc"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "PHÁT AN KHANG - HOÀNG HUY",
-      "e5": 0,
-      "e10": 0,
-      "do05": 1200,
+      "do05": 0,
       "do001": 0,
       "time": "0:00",
       "region": "Miền Bắc"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "PHÁT AN KHANG - ANH PHÁT",
-      "e5": 0,
-      "e10": 0,
-      "do05": 1200,
-      "do001": 1650,
-      "time": "0:00",
-      "region": "Miền Trung"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "PHÁT AN KHANG - BẾN THUỶ",
-      "e5": 0,
-      "e10": 1200,
-      "do05": 1200,
-      "do001": 0,
-      "time": "0:00",
-      "region": "Miền Trung"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "PHÁT AN KHANG - VŨNG ÁNG",
-      "e5": 0,
-      "e10": 0,
-      "do05": 1200,
-      "do001": 0,
-      "time": "0:00",
-      "region": "Miền Trung"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "PHÁT AN KHANG - CỬA VIỆT",
-      "e5": 0,
-      "e10": 0,
-      "do05": 1150,
-      "do001": 0,
-      "time": "0:00",
-      "region": "Miền Bắc"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "PHÚC LÂM - NHÀ BÈ",
-      "e5": 0,
-      "e10": 600,
-      "do05": 1200,
-      "do001": 0,
-      "time": "0:00",
-      "region": "ĐNB"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "SAIGONPETRO - SAIGONPETRO",
-      "e5": 400,
-      "e10": 400,
-      "do05": 1000,
-      "do001": 800,
-      "time": "7:30",
-      "region": "ĐNB"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "SE - CẦN THƠ",
-      "e5": 0,
-      "e10": 500,
-      "do05": 850,
-      "do001": 850,
-      "time": "8:00",
-      "region": "Miền Tây"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "STS TÂY NAM BỘ - TNB",
-      "e5": 0,
-      "e10": 600,
-      "do05": 800,
-      "do001": 0,
-      "time": "8:00",
-      "region": "Miền Tây"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "TFC - TFC",
-      "e5": 0,
-      "e10": 700,
-      "do05": 950,
-      "do001": 1000,
-      "time": "0:00",
-      "region": "Miền Tây"
-    },
-    {
-      "date": "24/08/2026",
-      "supplier": "THANH LỄ - THANH LỄ",
-      "e5": 600,
-      "e10": 400,
-      "do05": 900,
-      "do001": 900,
-      "time": "0:00",
-      "region": "ĐNB"
     }
   ],
   "staffList": [],
   "historyLogs": [
+    {
+      "id": 1787582831404,
+      "time": "21:47",
+      "date": "24/08/2026",
+      "user": "Admin Tá»•ng",
+      "total": 21
+    },
     {
       "id": 1787542670190,
       "time": "10:37",
@@ -330,7 +277,7 @@
       "total": 7
     }
   ],
-  "updatedTime": "10:37",
+  "updatedTime": "21:47",
   "updatedDate": "24/08/2026",
   "updatedBy": "Admin Tá»•ng",
   "users": [
