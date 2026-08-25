@@ -307,13 +307,20 @@
       "email": "mailraclungtung@gmail.com",
       "fullName": "Nhị Gia",
       "password_hash": "$2b$10$UKH99cPb2yUVnvL1uie0UuBDb75bvObg35ZhXlb2x7zey1lt5/bKS",
-      "role": "USER",
+      "role": "MANAGER",
       "status": "ACTIVE",
       "email_verified": true,
       "created_at": "2026-08-25T04:49:55.855Z"
     }
   ],
   "auditLogs": [
+    {
+      "id": 1787635198554,
+      "user_email": "duyennvh@gmail.com",
+      "action": "CHANGE_ROLE",
+      "details": "Đổi vai trò của mailraclungtung@gmail.com từ USER thành MANAGER",
+      "created_at": "2026-08-25T05:19:58.554Z"
+    },
     {
       "id": 1787565947673,
       "user_email": "duyennvh@gmail.com",
